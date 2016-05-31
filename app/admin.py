@@ -31,7 +31,7 @@ class PessoaAdmin(admin.ModelAdmin):
     """
         Modelo Pessoa Admin
     """
-    list_display = ('nome', 'email', 'status', 'created_at', 'updated_at',)
+    list_display = ('nome', 'email', 'status',)
     list_filter = ('nome',)
 
 

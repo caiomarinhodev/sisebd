@@ -25,6 +25,7 @@ class Departamento(models.Model):
     """
         Modelo Departamento
     """
+    igreja = models.ForeignKey(Igreja, on_delete=models.CASCADE)
     descricao = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -3,9 +3,20 @@ from django.forms import ModelForm
 from .models import Igreja, Departamento, Classe, Pessoa
 
 
-class FormIgreja(ModelForm):
+class BaseForm(ModelForm):
     """
-        Form Igreja
+        Form Base para adicionar classe de estilo.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(BaseForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class FormIgreja(BaseForm):
+    """
+        Form Igreja.
     """
 
     class Meta:
@@ -13,9 +24,9 @@ class FormIgreja(ModelForm):
         fields = '__all__'
 
 
-class FormDepartamento(ModelForm):
+class FormDepartamento(BaseForm):
     """
-        Form Departamento
+        Form Departamento.
     """
 
     class Meta:
@@ -23,9 +34,9 @@ class FormDepartamento(ModelForm):
         fields = '__all__'
 
 
-class FormClasse(ModelForm):
+class FormClasse(BaseForm):
     """
-        Form Classe
+        Form Classe.
     """
 
     class Meta:
@@ -33,9 +44,9 @@ class FormClasse(ModelForm):
         fields = '__all__'
 
 
-class FormPessoa(ModelForm):
+class FormPessoa(BaseForm):
     """
-        Form Aluno
+        Form Pessoa.
     """
 
     class Meta:

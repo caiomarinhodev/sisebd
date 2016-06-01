@@ -103,6 +103,21 @@ class Aluno(models.Model):
     """
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    foto = models.CharField(max_length=300, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.pessoa.nome).upper()
+
+
+class Professor(models.Model):
+    """
+        Modelo Professor
+    """
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    foto = models.CharField(max_length=300, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

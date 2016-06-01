@@ -42,6 +42,14 @@ class AlunoAdmin(admin.ModelAdmin):
     list_display = ('pessoa', 'classe', 'created_at', 'updated_at',)
 
 
+class ProfessorAdmin(admin.ModelAdmin):
+    """
+        Modelo Professor Admin
+    """
+    list_display = ('pessoa', 'classe', 'created_at', 'updated_at',)
+
+
+admin.site.register(Professor, ProfessorAdmin)
 admin.site.register(Aluno, AlunoAdmin)
 admin.site.register(Pessoa, PessoaAdmin)
 admin.site.register(Classe, ClasseAdmin)

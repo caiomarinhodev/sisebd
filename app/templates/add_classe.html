@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Cadastrar Classe</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" action="/add-classe">{% csrf_token %}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="nome">Nome da classe:</label>
+                            <input class="form-control input-lg" id="nome" placeholder="Jovens ..." type="text" name="nome"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label>Departamento responsavel:</label>
+                            <select class="form-control input-lg" id="id_depto" name="id_depto" required>
+                                <option value=""></option>
+                                {% for depto in igreja.departamentos.all %}
+                                    <option value="{{depto.id }}">{{ depto.descricao }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Professor da classe:</label>
+                            <select class="form-control input-lg" id="id_professor" name="id_professor" required>
+                                <option value=""></option>
+                                {% for professor in igreja.professores.all %}
+                                    <option value="{{ professor.id }}">{{ professor.pessoa.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Idade maxima:</label>
+                            <input type="number" class="form-control input-lg" min="0" id="idade_maxima"
+                                   name="idade_maxima">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Idade minima:</label>
+                            <input type="number" class="form-control input-lg" min="0" id="idade_minima"
+                                   name="idade_minima">
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a href="/classes" class="btn btn-default pull-left">Cancelar</a>
+                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#classes').addClass('active');
+        });
+    </script>
+    <!-- /.row -->
+{% endblock %}

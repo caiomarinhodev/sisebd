@@ -36,11 +36,16 @@
             </div>
             <div class="row text-center">
                 <div class="col-md-12">
-                    <select class="form-control" id="id_igreja" name="id_igreja">
+                    <select class="form-control" id="id_igreja" name="id_igreja" required>
                         {% for igreja in igrejas %}
                             <option value="{{ igreja.id }}">{{ igreja.nome_igreja }}</option>
                         {% endfor %}
                     </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn bg-blue btn-block btn-flat">Entrar</button>
                 </div>
             </div>
         </form>

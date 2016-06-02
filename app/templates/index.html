@@ -5,14 +5,14 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{ igreja.departamentos|length }}</h3>
+                    <h3>{{ igreja.departamentos.all|length }}</h3>
 
                     <p>Departamentos</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="ion ion-network"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/departamentos" class="small-box-footer">Ver lista <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -20,14 +20,14 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{ igreja.classes|length }}</h3>
+                    <h3>{{ igreja.classes.all|length }}</h3>
 
                     <p>Classes</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="ion ion-university"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Ver lista <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -35,14 +35,14 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>{{ igreja.alunos|length }}</h3>
+                    <h3>{{ igreja.alunos.all|length }}</h3>
 
                     <p>Alunos Matriculados</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-person-add"></i>
+                    <i class="ion ion-person-stalker"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Mais informacoes <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -50,17 +50,22 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>{{ igreja.aulas|length }}</h3>
+                    <h3>{{ igreja.aulas.all|length }}</h3>
 
                     <p>Aulas Registradas</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
+                    <i class="ion ion-clipboard"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">Ver lista <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#inicio').addClass('active');
+        });
+    </script>
     <!-- /.row -->
 {% endblock %}

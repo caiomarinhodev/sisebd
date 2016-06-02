@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Editar Classe</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" action="/edit-classe/{{ classe.id }}">{% csrf_token %}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="nome">Nome da classe:</label>
+                            <input class="form-control input-lg" id="nome" placeholder="Jovens ..." type="text"
+                                   name="nome" value="{{ classe.nome }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="depto">Departamento responsável:</label>
+                            <input class="form-control input-lg" id="depto" type="text"
+                                   value="{{ classe.departamento.descricao }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_professor">Professor da classe:</label>
+                            <input class="form-control input-lg" id="id_professor" type="text"
+                                   value="{{ classe.professor.pessoa.nome }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="idade_maxima">Idade maxima:</label>
+                            <input type="number" class="form-control input-lg" min="0" id="idade_maxima"
+                                   name="idade_maxima" value="{{ classe.idade_maxima }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="idade_minima">Idade minima:</label>
+                            <input type="number" class="form-control input-lg" min="0" id="idade_minima"
+                                   name="idade_minima" value="{{ classe.idade_minima }}">
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a href="/classes" class="btn btn-default pull-left">Cancelar</a>
+                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#classes').addClass('active');
+        });
+    </script>
+    <!-- /.row -->
+{% endblock %}

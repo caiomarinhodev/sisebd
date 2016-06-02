@@ -19,6 +19,8 @@ from django.contrib.auth import views as auth_views
 
 from app import views
 import app.views.LoginView
+import app.views.DepartamentoView
+import app.views.ClasseView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -29,4 +31,12 @@ urlpatterns = [
     url(r'^who', views.LoginView.get_who, name='who'),
     url(r'^register', views.LoginView.get_register, name='register'),
     url(r'^logout', views.LoginView.logout, name='logout'),
+    url(r'^add-depto', views.DepartamentoView.add_departamento, name='add-depto'),
+    url(r'^departamentos/', views.DepartamentoView.list_departamentos, name='departamentos'),
+    url(r'^edit-depto/(?P<id>\d+)', views.DepartamentoView.edit_departamento, name='edit-depto'),
+    url(r'^view-depto/(?P<id>\d+)', views.DepartamentoView.view_departamento, name='view-depto'),
+    url(r'^add-classe', views.ClasseView.add_classe, name='add-classe'),
+    url(r'^classes/', views.ClasseView.list_classes, name='classes'),
+    url(r'^edit-classe/(?P<id>\d+)', views.ClasseView.edit_classe, name='edit-classe'),
+    url(r'^view-classe/(?P<id>\d+)', views.ClasseView.view_classe, name='view-classe'),
 ]

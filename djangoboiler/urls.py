@@ -16,17 +16,17 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from app import views
 
-from app.views.LoginView import WhoView
-from app.views.LoginView import LoginView
-from app.views.HomeView import HomeView
+from app import views
+import app.views.LoginView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^admin/login/$', auth_views.login),
-    url(r'^$', HomeView.as_view(), name='home'),
-    url(r'^login/', LoginView.as_view(), name='login'),
+    url(r'^$', views.LoginView.verifica_sessao, name='index'),
+    url(r'^login', views.LoginView.get_login, name='login'),
     url(r'^callback', views.LoginView.callback_handling, name='callback'),
-    url(r'^who', WhoView.as_view(), name='who'),
+    url(r'^who', views.LoginView.get_who, name='who'),
+    url(r'^register', views.LoginView.get_register, name='register'),
+    url(r'^logout', views.LoginView.logout, name='logout'),
 ]

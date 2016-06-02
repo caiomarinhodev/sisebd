@@ -32,27 +32,27 @@
     <div class="login-box-body">
         <div class="row text-center">
             <div class="col-md-12" style="margin-bottom: 18px;">
-                <form method="post" action="">
+                <form method="post" action="/who">
                     {% csrf_token %}
-                    <input type="hidden" name="categoria" value="">
+                    <input type="hidden" name="categoria" value="0">
                     <button type="submit" class="btn bg-navy btn-block btn-flat btn-lg">
                         <i class="fa fa-building"></i> Sou Igreja
                     </button>
                 </form>
             </div>
             <div class="col-md-12" style="margin-bottom: 18px;">
-                <form method="post" action="">
+                <form method="post" action="/who">
                     {% csrf_token %}
-                    <input type="hidden" name="categoria" value="">
+                    <input type="hidden" name="categoria" value="1">
                     <button type="submit" class="btn bg-orange btn-block btn-flat btn-lg">
                         <i class="fa fa-graduation-cap"></i> Sou Professor
                     </button>
                 </form>
             </div>
             <div class="col-md-12">
-                <form method="post" action="">
+                <form method="post" action="/who">
                     {% csrf_token %}
-                    <input type="hidden" name="categoria" value="">
+                    <input type="hidden" name="categoria" value="2">
                     <button type="submit" class="btn bg-purple btn-block btn-flat btn-lg">
                         <i class="fa fa-user"></i>  Sou Aluno
                     </button>

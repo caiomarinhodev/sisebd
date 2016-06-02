@@ -30,7 +30,7 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <form method="post" action="">
+        <form method="post" action="">{% csrf_token %}
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -63,6 +63,7 @@
                     <div class="form-group">
                         <label for="nome_responsavel">Nome do administrador:</label>
                         <input class="form-control" id="nome_responsavel" name="nome_responsavel"
+                               value="{{ nome }}"
                                type="text" readonly>
                     </div>
                 </div>
@@ -72,8 +73,14 @@
                     <div class="form-group">
                         <label for="nome_igreja">Email:</label>
                         <input class="form-control" id="email" name="email"
+                               value="{{ email }}"
                                type="text" readonly>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn bg-blue btn-block btn-flat">Registrar</button>
                 </div>
             </div>
         </form>

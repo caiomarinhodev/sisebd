@@ -15,15 +15,14 @@ class DepartamentoAdmin(admin.ModelAdmin):
     """
         Modelo Departamento Admin
     """
-    list_display = ('descricao', 'igreja', 'created_at', 'updated_at',)
-    list_filter = ('igreja',)
+    list_display = ('descricao', 'created_at', 'updated_at',)
 
 
 class ClasseAdmin(admin.ModelAdmin):
     """
         Modelo Classe Admin
     """
-    list_display = ('nome', 'departamento', 'created_at', 'updated_at',)
+    list_display = ('nome', 'created_at', 'updated_at',)
     list_filter = ('nome',)
 
 
@@ -39,16 +38,24 @@ class AlunoAdmin(admin.ModelAdmin):
     """
         Modelo Aluno Admin
     """
-    list_display = ('pessoa', 'classe', 'created_at', 'updated_at',)
+    list_display = ('pessoa', 'created_at', 'updated_at',)
 
 
 class ProfessorAdmin(admin.ModelAdmin):
     """
         Modelo Professor Admin
     """
-    list_display = ('pessoa', 'classe', 'created_at', 'updated_at',)
+    list_display = ('pessoa', 'created_at', 'updated_at',)
 
 
+class AulaAdmin(admin.ModelAdmin):
+    """
+        Modelo Professor Admin
+    """
+    list_display = ('data', 'created_at',)
+
+
+admin.site.register(Aula, AulaAdmin)
 admin.site.register(Professor, ProfessorAdmin)
 admin.site.register(Aluno, AlunoAdmin)
 admin.site.register(Pessoa, PessoaAdmin)

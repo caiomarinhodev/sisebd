@@ -4,8 +4,9 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Classes</h3>
-                    <a href="/add-classe" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Adicionar Classe</a>
+                    <h3 class="box-title">Professores</h3>
+                    <a href="/add-professor" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Adicionar
+                        Professor</a>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -19,10 +20,10 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Nome</th>
-                                        <th>Professor</th>
-                                        <th>Alunos</th>
-                                        <th>Idade Min</th>
-                                        <th>Idade Max</th>
+                                        <th>Sexo</th>
+                                        <th>Data Nascimento</th>
+                                        <th>Idade</th>
+                                        <th>Email</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
                                         <th></th>
@@ -30,23 +31,23 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for classe in igreja.classes.all %}
+                                    {% for prof in igreja.professores.all %}
                                         <tr>
-                                            <td>{{ classe.id }}</td>
-                                            <td>{{ classe.nome }}</td>
-                                            <td>{{ classe.professor.pessoa.nome }}</td>
-                                            <td>{{ classe.alunos.all|length }}</td>
-                                            <td>{{ classe.idade_minima }}</td>
-                                            <td>{{ classe.idade_maxima }}</td>
-                                            <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
+                                            <td>{{ prof.pessoa.id }}</td>
+                                            <td>{{ prof.pessoa.nome }}</td>
+                                            <td>{{ prof.pessoa.sexo }}</td>
+                                            <td>{{ prof.pessoa.data_nascimento|date:"d/m/Y" }}</td>
+                                            <td>{{ prof.pessoa.idade }}</td>
+                                            <td>{{ prof.pessoa.email }}</td>
+                                            <td>{{ prof.pessoa.created_at|date:"d/m/Y G:i" }}</td>
+                                            <td>{{ prof.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
                                             <td class="text-center">
-                                                <a href="/edit-classe/{{ classe.id }}">
+                                                <a href="/edit-professor/{{ prof.pessoa.id }}">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                             </td>
                                             <td class="text-center">
-                                                <a href="/view-classe/{{ classe.id }}">
+                                                <a href="/view-professor/{{ prof.pessoa.id }}">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                             </td>
@@ -65,7 +66,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#classes').addClass('active');
+            $('#professores').addClass('active');
         });
     </script>
     <!-- /.row -->

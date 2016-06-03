@@ -12,27 +12,27 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="nome">Nome da classe:</label>
-                            <input class="form-control input-lg" id="nome" placeholder="Jovens ..." type="text"
+                            <input class="form-control " id="nome" placeholder="Jovens ..." type="text"
                                    name="nome" value="{{ classe.nome }}">
                         </div>
                         <div class="form-group">
-                            <label for="depto">Departamento responsável:</label>
-                            <input class="form-control input-lg" id="depto" type="text"
+                            <label for="depto">Departamento responsavel:</label>
+                            <input class="form-control " id="depto" type="text"
                                    value="{{ classe.departamento.descricao }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="id_professor">Professor da classe:</label>
-                            <input class="form-control input-lg" id="id_professor" type="text"
+                            <input class="form-control " id="id_professor" type="text"
                                    value="{{ classe.professor.pessoa.nome }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="idade_maxima">Idade maxima:</label>
-                            <input type="number" class="form-control input-lg" min="0" id="idade_maxima"
+                            <input type="number" class="form-control " min="0" id="idade_maxima"
                                    name="idade_maxima" value="{{ classe.idade_maxima }}">
                         </div>
                         <div class="form-group">
                             <label for="idade_minima">Idade minima:</label>
-                            <input type="number" class="form-control input-lg" min="0" id="idade_minima"
+                            <input type="number" class="form-control " min="0" id="idade_minima"
                                    name="idade_minima" value="{{ classe.idade_minima }}">
                         </div>
                     </div>

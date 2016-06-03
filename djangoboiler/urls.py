@@ -21,6 +21,8 @@ from app import views
 import app.views.LoginView
 import app.views.DepartamentoView
 import app.views.ClasseView
+import app.views.AlunoView
+import app.views.ProfessorView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -39,4 +41,12 @@ urlpatterns = [
     url(r'^classes/', views.ClasseView.list_classes, name='classes'),
     url(r'^edit-classe/(?P<id>\d+)', views.ClasseView.edit_classe, name='edit-classe'),
     url(r'^view-classe/(?P<id>\d+)', views.ClasseView.view_classe, name='view-classe'),
+    url(r'^add-aluno', views.AlunoView.add_aluno, name='add-aluno'),
+    url(r'^alunos/', views.AlunoView.list_alunos, name='alunos'),
+    url(r'^edit-aluno/(?P<id>\d+)', views.AlunoView.edit_aluno, name='edit-aluno'),
+    url(r'^view-aluno/(?P<id>\d+)', views.AlunoView.view_aluno, name='view-aluno'),
+    url(r'^add-professor', views.ProfessorView.add_professor, name='add-professor'),
+    url(r'^professores/', views.ProfessorView.list_professores, name='professores'),
+    url(r'^edit-professor/(?P<id>\d+)', views.ProfessorView.edit_professor, name='edit-professor'),
+    url(r'^view-professor/(?P<id>\d+)', views.ProfessorView.view_professor, name='view-professor'),
 ]

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Visualizar Professor</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nome">Nome professor:</label>
+                                    <input class="form-control " id="nome" placeholder="Insira o nome .."
+                                           type="text" name="nome" value="{{ pessoa.nome }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Genero:</label>
+                                    <input class="form-control " id="sexo" name="sexo"
+                                           value="{{ pessoa.sexo }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Nome do pai:</label>
+                                    <input class="form-control " id="nome_pai" placeholder=""
+                                           type="text" name="nome_pai" value="{{ pessoa.nome_pai }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Nome da mae:</label>
+                                    <input class="form-control " id="nome_mae" placeholder="Insira o nome .."
+                                           type="text" name="nome_mae" value="{{ pessoa.nome_mae }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Data de nascimento:</label>
+                                    <input class="form-control  datepicker" id="data_nascimento"
+                                           type="text" name="data_nascimento" value="{{ pessoa.data_nascimento }}"
+                                           readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Estado civil:</label>
+                                    <input class="form-control " id="estado_civil"
+                                           type="text" name="estado_civil" value="{{ pessoa.estado_civil }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Idade:</label>
+                                    <input class="form-control " id="idade"
+                                           type="number" min="0" max="100" name="idade" value="{{ pessoa.idade }}"
+                                           readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Email:</label>
+                                    <input class="form-control " id="email"
+                                           type="email" name="email" value="{{ pessoa.email }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nome">Telefone residencial:</label>
+                                    <input class="form-control " id="telefone_residencial"
+                                           type="text" name="telefone_residencial"
+                                           value="{{ pessoa.telefone_residencial }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Telefone comercial:</label>
+                                    <input class="form-control " id="telefone_comercial"
+                                           type="text" name="telefone_comercial"
+                                           value="{{ pessoa.telefone_comercial }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Telefone celular:</label>
+                                    <input class="form-control " id="telefone_celular"
+                                           type="text" name="telefone_celular" value="{{ pessoa.telefone_celular }}"
+                                           readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">CEP:</label>
+                                    <input class="form-control " id="cep"
+                                           type="text" name="cep" value="{{ pessoa.cep }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Endereco:</label>
+                                    <input class="form-control " id="endereco"
+                                           type="text" name="endereco" value="{{ pessoa.endereco }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Numero:</label>
+                                    <input class="form-control " id="numero"
+                                           type="number" min="0" name="numero" value="{{ pessoa.numero }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Bairro:</label>
+                                    <input class="form-control " id="bairro"
+                                           type="text" name="bairro" value="{{ pessoa.bairro }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Cidade:</label>
+                                    <input class="form-control " id="cidade"
+                                           type="text" name="cidade" value="{{ pessoa.cidade }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Estado:</label>
+                                    <input class="form-control " id="estado"
+                                           type="text" name="estado" value="{{ pessoa.estado }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a href="/professores" class="btn btn-default pull-left">Voltar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#professores').addClass('active');
+        });
+    </script>
+    <!-- /.row -->
+{% endblock %}

@@ -132,12 +132,12 @@
                     </a>
                 </li>
                 <li id="alunos">
-                    <a href="#">
+                    <a href="/alunos">
                         <i class="fa fa-users"></i> <span>Alunos</span>
                     </a>
                 </li>
                 <li id="professores">
-                    <a href="#">
+                    <a href="/professores">
                         <i class="fa fa-sitemap"></i> <span>Professores</span>
                     </a>
                 </li>
@@ -275,6 +275,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#table').DataTable({});
+        $('.datepicker').datepicker({
+            clearBtn: true,
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            autoclose: true
+        });
     });
 </script>
 </body>

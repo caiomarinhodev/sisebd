@@ -8,45 +8,26 @@ class Pessoa(models.Model):
     """
         Modelo Pessoa
     """
-    EMPTY = ''
-    MASC = 'Masculino'
-    FEM = 'Feminino'
-    SOLTEIRO = 'Solteiro(a)'
-    CASADO = 'Casado(a)'
-    DIVORCIADO = 'Divorciado(a)'
-    VIUVO = 'Viuvo(a)'
-
-    TIPOS = (
-        (EMPTY, ''),
-        (MASC, 'Masculino'),
-        (FEM, 'Feminino'),
-    )
-
-    CIVIL = (
-        (EMPTY, ''),
-        (SOLTEIRO, 'Solteiro(a)'),
-        (CASADO, 'Casado(a)'),
-        (VIUVO, 'Viuvo(a)'),
-        (DIVORCIADO, 'Divorciado(a)'),
-    )
     nome = models.CharField(max_length=100)
-    sexo = models.CharField(max_length=50, choices=TIPOS, blank=True, null=True)
+    sexo = models.CharField(max_length=50, blank=True, null=True)
     nome_pai = models.CharField(max_length=100, blank=True, null=True)
     nome_mae = models.CharField(max_length=100, blank=True, null=True)
     data_nascimento = models.DateField(blank=True, null=True)
-    estado_civil = models.CharField(max_length=100, blank=True, null=True, choices=CIVIL)
-    idade = models.IntegerField(blank=True, null=True)
+    estado_civil = models.CharField(max_length=100, blank=True, null=True)
+    idade = models.CharField(max_length=10, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     telefone_residencial = models.CharField(max_length=30, blank=True, null=True)
     telefone_comercial = models.CharField(max_length=30, blank=True, null=True)
     telefone_celular = models.CharField(max_length=30, blank=True, null=True)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=True, blank=True)
     endereco = models.CharField(max_length=200, blank=True, null=True)
-    numero = models.IntegerField(blank=True, null=True)
+    numero = models.CharField(max_length=10, blank=True, null=True)
     bairro = models.CharField(max_length=100, blank=True, null=True)
     cidade = models.CharField(max_length=100, blank=True, null=True)
     cep = models.CharField(max_length=30, blank=True, null=True)
     estado = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.nome).upper() + " - " + str(self.email)
@@ -60,7 +41,7 @@ class Aluno(models.Model):
     foto = models.CharField(max_length=300, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    primeira_entrada = models.BooleanField(default=False)
+    primeira_entrada = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.pessoa.nome).upper()
@@ -74,7 +55,7 @@ class Professor(models.Model):
     foto = models.CharField(max_length=300, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    primeira_entrada = models.BooleanField(default=False)
+    primeira_entrada = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.pessoa.nome).upper()
@@ -86,12 +67,9 @@ class Aula(models.Model):
     """
     data = models.DateField()
     ofertas = models.CharField(max_length=10)
-    biblias = models.IntegerField(validators=[MinValueValidator(0),
-                                              MaxValueValidator(1000)])
-    revistas = models.IntegerField(validators=[MinValueValidator(0),
-                                               MaxValueValidator(1000)])
-    visitantes = models.IntegerField(validators=[MinValueValidator(0),
-                                                 MaxValueValidator(1000)])
+    biblias = models.CharField(max_length=10)
+    revistas = models.CharField(max_length=10)
+    visitantes = models.CharField(max_length=10)
     presentes = models.ManyToManyField(Aluno, related_name='%(class)s_presentes')
     faltosos = models.ManyToManyField(Aluno, related_name='%(class)s_faltosos')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -109,13 +87,9 @@ class Classe(models.Model):
     alunos = models.ManyToManyField(Aluno)
     aulas = models.ManyToManyField(Aula)
     nome = models.CharField(max_length=100)
-    professor = models.OneToOneField(
-        Professor,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    idade_minima = models.IntegerField()
-    idade_maxima = models.IntegerField()
+    professor = models.ForeignKey(Professor)
+    idade_minima = models.CharField(max_length=10)
+    idade_maxima = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -145,7 +119,7 @@ class Igreja(models.Model):
     email_responsavel = models.EmailField()
     telefone = models.CharField(max_length=50, blank=True, null=True)
     nome_igreja = models.CharField(max_length=100)
-    qtd_membros = models.IntegerField(blank=True, null=True)
+    qtd_membros = models.CharField(max_length=10, blank=True, null=True)
     foto = models.CharField(max_length=300, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

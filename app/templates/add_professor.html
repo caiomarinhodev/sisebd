@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Adicionar Professor</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" action="/add-professor">{% csrf_token %}
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nome">Nome professor:</label>
+                                    <input class="form-control " id="nome" placeholder="Insira o nome .."
+                                           type="text" name="nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Genero:</label>
+                                    <select class="form-control " id="sexo" name="sexo">
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Feminino">Feminino</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Departamento:</label>
+                                    <select class="form-control " id="id_depto" name="id_depto" required>
+                                        {% for depto in igreja.departamentos.all %}
+                                            <option value="{{ depto.id }}">{{ depto.descricao }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Nome do pai:</label>
+                                    <input class="form-control " id="nome_pai" placeholder=""
+                                           type="text" name="nome_pai">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Nome da mae:</label>
+                                    <input class="form-control " id="nome_mae" placeholder="Insira o nome .."
+                                           type="text" name="nome_mae">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Data de nascimento:</label>
+                                    <input class="form-control  datepicker" id="data_nascimento"
+                                           type="text" name="data_nascimento" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Estado civil:</label>
+                                    <select class="form-control " id="estado_civil" name="estado_civil">
+                                        <option value="Solteiro(a)">Solteiro(a)</option>
+                                        <option value="Casado(a)">Casado(a)</option>
+                                        <option value="Viuvo(a)">Viuvo(a)</option>
+                                        <option value="Divorciado(a)">Divorciado(a)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Idade:</label>
+                                    <input class="form-control " id="idade"
+                                           type="number" min="0" max="100" name="idade">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Email:</label>
+                                    <input class="form-control " id="email"
+                                           type="email" name="email">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nome">Telefone residencial:</label>
+                                    <input class="form-control " id="telefone_residencial"
+                                           type="text" name="telefone_residencial">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Telefone comercial:</label>
+                                    <input class="form-control " id="telefone_comercial"
+                                           type="text" name="telefone_comercial">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Telefone celular:</label>
+                                    <input class="form-control " id="telefone_celular"
+                                           type="text" name="telefone_celular">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">CEP:</label>
+                                    <input class="form-control " id="cep"
+                                           type="text" name="cep">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Endereco:</label>
+                                    <input class="form-control " id="endereco"
+                                           type="text" name="endereco">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Numero:</label>
+                                    <input class="form-control " id="numero"
+                                           type="number" min="0" name="numero">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Bairro:</label>
+                                    <input class="form-control " id="bairro"
+                                           type="text" name="bairro">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Cidade:</label>
+                                    <input class="form-control " id="cidade"
+                                           type="text" name="cidade">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Estado:</label>
+                                    <select class="form-control " id="estado" name="estado">
+                                        <option value=""></option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapa</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceara</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espirito Santo</option>
+                                        <option value="GO">Goias</option>
+                                        <option value="MA">Maranhao</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Para</option>
+                                        <option value="PB">Paraiba</option>
+                                        <option value="PR">Parana</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piaui</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondonia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">Sao Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a href="/professores" class="btn btn-default pull-left">Cancelar</a>
+                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#professores').addClass('active');
+        });
+    </script>
+    <!-- /.row -->
+{% endblock %}

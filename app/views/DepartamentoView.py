@@ -41,7 +41,7 @@ def edit_departamento(request, id):
             depto.save()
             return redirect('/departamentos')
         except:
-            return redirect('/edit-depto')
+            return redirect('/departamentos')
 
 
 def view_departamento(request, id):

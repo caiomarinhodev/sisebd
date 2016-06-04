@@ -86,6 +86,19 @@ def view_aluno(request, id):
         return redirect('/alunos')
 
 
+def remove_aluno(request, id):
+    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    try:
+        aluno = Aluno.objects.get(id=id)
+        igreja.alunos.remove(aluno)
+        classe = Classe.objects.get(id=aluno.classe_set.all()[0].id)
+        classe.alunos.remove(aluno)
+        aluno.delete()
+        return redirect('/alunos')
+    except:
+        return redirect('/alunos')
+
+
 def get_data_formated(data):
     # replace = data.replace('/', '-')
     date = datetime.datetime.strptime(data, '%d/%m/%Y')

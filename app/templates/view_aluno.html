@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border text-center">
                     <h3 class="box-title">Visualizar Aluno</h3>
@@ -14,7 +14,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nome">Nome aluno:</label>
-                                    <input class="form-control " id="nome" placeholder="Insira o nome .."
+                                    <input class="form-control " id="nome"
                                            type="text" name="nome" value="{{ pessoa.nome }}" readonly>
                                 </div>
                                 <div class="form-group">
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Nome da mae:</label>
-                                    <input class="form-control " id="nome_mae" placeholder="Insira o nome .."
+                                    <input class="form-control " id="nome_mae"
                                            type="text" name="nome_mae" value="{{ pessoa.nome_mae }}" readonly>
                                 </div>
                                 <div class="form-group">
@@ -54,6 +54,33 @@
                                     <input class="form-control " id="email"
                                            type="email" name="email" value="{{ pessoa.email }}" readonly>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <input type="text" class="knob" value="100"
+                                               data-thickness="0.3"
+                                               data-width="120" data-height="120" data-fgColor="#00c0ef"
+                                               data-readonly="true">
+
+                                        <div class="knob-label">Numero de Aulas</div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <input type="text" class="knob" value="80"
+                                               data-thickness="0.3"
+                                               data-width="120" data-height="120" data-fgColor="#00a65a"
+                                               data-readonly="true">
+
+                                        <div class="knob-label">% Presente</div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <input type="text" class="knob" value="20"
+                                               data-thickness="0.3"
+                                               data-width="120" data-height="120" data-fgColor="#f56954"
+                                               data-readonly="true">
+
+                                        <div class="knob-label">% Faltas</div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -103,6 +130,18 @@
                                     <label for="nome">Estado:</label>
                                     <input class="form-control " id="estado"
                                            type="text" name="estado" value="{{ pessoa.estado }}" readonly>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <center>
+                                            <iframe width="100%" height="300"
+                                                    frameborder="0"
+                                                    scrolling="no"
+                                                    marginheight="0"
+                                                    marginwidth="0"
+                                                    src="https://maps.google.com/maps?q={{ pessoa.endereco }},{{ pessoa.numero }},{{ pessoa.bairro }}, {{ pessoa.cidade }}&output=embed"></iframe>
+                                        </center>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -20,7 +20,7 @@ def get_who(request):
         data = request.POST
         categoria = data['categoria']
         request.session['categoria'] = categoria
-        return loga(request, categoria)
+        return redirect('/')
 
 
 # Renderiza e recebe POST da tela de registro de igrejas

@@ -7,7 +7,7 @@ from app.models import Igreja, Departamento
 def list_departamentos(request):
     igreja = Igreja.objects.get(email_responsavel=request.session['email'])
     return render_to_response('departamentos.html', {'igreja': igreja},
-                       context_instance=RequestContext(request))
+                              context_instance=RequestContext(request))
 
 
 def add_departamento(request):
@@ -52,4 +52,15 @@ def view_departamento(request, id):
                                                              'depto': depto},
                                   context_instance=RequestContext(request))
     else:
+        return redirect('/departamentos')
+
+
+def remove_departamento(request, id):
+    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    try:
+        depto = Departamento.objects.get(id=id)
+        igreja.departamentos.remove(depto)
+        depto.delete()
+        return redirect('/departamentos')
+    except:
         return redirect('/departamentos')

@@ -37,6 +37,7 @@
             <div class="row text-center">
                 <div class="col-md-12">
                     <select class="form-control" id="id_igreja" name="id_igreja" required>
+                        <option value=""></option>
                         {% for igreja in igrejas %}
                             <option value="{{ igreja.id }}">{{ igreja.nome_igreja }}</option>
                         {% endfor %}

@@ -4,9 +4,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Professores</h3>
-                    <a href="/add-professor" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Adicionar
-                        Professor</a>
+                    <h3 class="box-title">Diarios</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -19,38 +17,26 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>Genero</th>
                                         <th>Classe</th>
+                                        <th>Data</th>
+                                        <th>Presentes</th>
+                                        <th>Faltosos</th>
                                         <th>Criado em</th>
-                                        <td>Alterado em</td>
-                                        <th></th>
-                                        <th></th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for prof in igreja.professores.all %}
+                                    {% for aula in igreja.aulas.all %}
                                         <tr>
-                                            <td>{{ prof.pessoa.id }}</td>
-                                            <td>{{ prof.pessoa.nome }}</td>
-                                            <td>{{ prof.pessoa.sexo }}</td>
-                                            <td>{{ prof.classe_set.all }}</td>
-                                            <td>{{ prof.pessoa.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td>{{ prof.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
+                                            <td>{{ aula.id }}</td>
+                                            <td>{{ aula.classe_set.all }}</td>
+                                            <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                            <td>{{ aula.presentes.all|length }}</td>
+                                            <td>{{ aula.faltosos.all|length }}</td>
+                                            <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
                                             <td class="text-center">
-                                                <a href="/edit-professor/{{ prof.pessoa.id }}">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="/view-professor/{{ prof.pessoa.id }}">
+                                                <a href="/view-diario/{{ aula.id }}">
                                                     <i class="fa fa-eye"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="/remove-professor/{{ prof.id }}">
-                                                    <i class="lixo fa fa-trash-o"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -68,7 +54,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#professores').addClass('active');
+            $('#diarios').addClass('active');
         });
     </script>
     <!-- /.row -->

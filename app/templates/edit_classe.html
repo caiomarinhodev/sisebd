@@ -12,13 +12,13 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="nome">Nome da classe:</label>
-                            <input class="form-control " id="nome" placeholder="Jovens ..." type="text"
+                            <input class="form-control " id="nome" type="text"
                                    name="nome" value="{{ classe.nome }}">
                         </div>
                         <div class="form-group">
                             <label for="depto">Departamento responsavel:</label>
                             <input class="form-control " id="depto" type="text"
-                                   value="{{ classe.departamento.descricao }}" readonly>
+                                   value="{{ classe.departamento_set.all }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="id_professor">Professor da classe:</label>
@@ -40,7 +40,7 @@
 
                     <div class="box-footer">
                         <a href="/classes" class="btn btn-default pull-left">Cancelar</a>
-                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                        <button type="submit" class="btn btn-primary pull-right">Alterar</button>
                     </div>
                 </form>
             </div>

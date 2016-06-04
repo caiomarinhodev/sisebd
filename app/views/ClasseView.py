@@ -60,3 +60,16 @@ def view_classe(request, id):
                                   context_instance=RequestContext(request))
     else:
         return redirect('/classes')
+
+
+def remove_classe(request, id):
+    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    try:
+        classe = Classe.objects.get(id=id)
+        igreja.classes.remove(classe)
+        depto = Departamento.objects.get(id=classe.departamento_set.all()[0].id)
+        depto.classes.remove(classe)
+        classe.delete()
+        return redirect('/classes')
+    except:
+        return redirect('/classes')

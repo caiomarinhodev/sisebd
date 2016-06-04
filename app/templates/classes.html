@@ -21,10 +21,9 @@
                                         <th>Nome</th>
                                         <th>Professor</th>
                                         <th>Alunos</th>
-                                        <th>Idade Min</th>
-                                        <th>Idade Max</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -36,8 +35,6 @@
                                             <td>{{ classe.nome }}</td>
                                             <td>{{ classe.professor.pessoa.nome }}</td>
                                             <td>{{ classe.alunos.all|length }}</td>
-                                            <td>{{ classe.idade_minima }}</td>
-                                            <td>{{ classe.idade_maxima }}</td>
                                             <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
                                             <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
                                             <td class="text-center">
@@ -48,6 +45,11 @@
                                             <td class="text-center">
                                                 <a href="/view-classe/{{ classe.id }}">
                                                     <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="/remove-classe/{{ classe.id }}">
+                                                    <i class="lixo fa fa-trash-o"></i>
                                                 </a>
                                             </td>
                                         </tr>

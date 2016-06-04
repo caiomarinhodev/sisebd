@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Diario</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nome">Data:</label>
+                                <input class="form-control datepicker" id="data"
+                                       type="text" name="data" value="{{ aula.data }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nome">Ofertas:</label>
+                                <input class="form-control" id="ofertas"
+                                       type="text" name="ofertas" value="{{ aula.ofertas }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nome">Biblias:</label>
+                                <input class="form-control" id="biblias"
+                                       type="text" name="biblias" value="{{ aula.biblias }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nome">Revistas:</label>
+                                <input class="form-control" id="revistas"
+                                       type="text" name="revistas" value="{{ aula.revistas }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="nome">Visitantes:</label>
+                                <input class="form-control" id="visitantes"
+                                       type="text" name="visitantes" value="{{ aula.visitantes }}">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="table">Alunos Presentes:</label>
+                                    <table class="table table-bordered table-striped" class="display"
+                                           cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for aluno in aula.presentes.all %}
+                                            <tr>
+                                                <td>{{ aluno.pessoa.nome }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="table">Alunos Faltosos:</label>
+                                    <table class="table table-bordered table-striped" class="display"
+                                           cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for aluno in aula.faltosos.all %}
+                                            <tr>
+                                                <td>{{ aluno.pessoa.nome }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <a href="/diarios" class="btn btn-default pull-left">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#diarios').addClass('active');
+        });
+    </script>
+    <!-- /.row -->
+{% endblock %}

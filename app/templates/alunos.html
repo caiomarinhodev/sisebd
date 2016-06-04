@@ -18,14 +18,13 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Classe</th>
                                         <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>Data Nascimento</th>
+                                        <th>Classe</th>
+                                        <th>Genero</th>
                                         <th>Idade</th>
-                                        <th>Email</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -34,12 +33,14 @@
                                     {% for aluno in igreja.alunos.all %}
                                         <tr>
                                             <td>{{ aluno.pessoa.id }}</td>
+                                            <td>
+                                                <a href="/view-aluno/{{ aluno.pessoa.id }}">
+                                                    {{ aluno.pessoa.nome }}
+                                                </a>
+                                            </td>
                                             <td>{{ aluno.classe_set.all }}</td>
-                                            <td>{{ aluno.pessoa.nome }}</td>
                                             <td>{{ aluno.pessoa.sexo }}</td>
-                                            <td>{{ aluno.pessoa.data_nascimento|date:"d/m/Y" }}</td>
                                             <td>{{ aluno.pessoa.idade }}</td>
-                                            <td>{{ aluno.pessoa.email }}</td>
                                             <td>{{ aluno.pessoa.created_at|date:"d/m/Y G:i" }}</td>
                                             <td>{{ aluno.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
                                             <td class="text-center">
@@ -50,6 +51,11 @@
                                             <td class="text-center">
                                                 <a href="/view-aluno/{{ aluno.pessoa.id }}">
                                                     <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="/remove-aluno/{{ aluno.id }}">
+                                                    <i class="lixo fa fa-trash-o"></i>
                                                 </a>
                                             </td>
                                         </tr>

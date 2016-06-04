@@ -14,12 +14,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nome">Nome professor:</label>
-                                    <input class="form-control " id="nome" placeholder="Insira o nome .."
+                                    <input class="form-control " id="nome"
                                            type="text" name="nome" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Genero:</label>
-                                    <select class="form-control " id="sexo" name="sexo">
+                                    <select class="form-control " id="sexo" name="sexo" required>
+                                        <option value=""></option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Feminino">Feminino</option>
                                     </select>
@@ -27,6 +28,7 @@
                                 <div class="form-group">
                                     <label for="nome">Departamento:</label>
                                     <select class="form-control " id="id_depto" name="id_depto" required>
+                                        <option value=""></option>
                                         {% for depto in igreja.departamentos.all %}
                                             <option value="{{ depto.id }}">{{ depto.descricao }}</option>
                                         {% endfor %}
@@ -34,12 +36,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Nome do pai:</label>
-                                    <input class="form-control " id="nome_pai" placeholder=""
+                                    <input class="form-control " id="nome_pai"
                                            type="text" name="nome_pai">
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Nome da mae:</label>
-                                    <input class="form-control " id="nome_mae" placeholder="Insira o nome .."
+                                    <input class="form-control " id="nome_mae"
                                            type="text" name="nome_mae">
                                 </div>
                                 <div class="form-group">
@@ -50,6 +52,7 @@
                                 <div class="form-group">
                                     <label for="nome">Estado civil:</label>
                                     <select class="form-control " id="estado_civil" name="estado_civil">
+                                        <option value=""></option>
                                         <option value="Solteiro(a)">Solteiro(a)</option>
                                         <option value="Casado(a)">Casado(a)</option>
                                         <option value="Viuvo(a)">Viuvo(a)</option>
@@ -70,28 +73,34 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nome">Telefone residencial:</label>
-                                    <input class="form-control " id="telefone_residencial"
+                                    <input class="form-control telefone" id="telefone_residencial"
                                            type="text" name="telefone_residencial">
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Telefone comercial:</label>
-                                    <input class="form-control " id="telefone_comercial"
+                                    <input class="form-control telefone" id="telefone_comercial"
                                            type="text" name="telefone_comercial">
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Telefone celular:</label>
-                                    <input class="form-control " id="telefone_celular"
+                                    <input class="form-control telefone" id="telefone_celular"
                                            type="text" name="telefone_celular">
                                 </div>
                                 <div class="form-group">
-                                    <label for="nome">CEP:</label>
-                                    <input class="form-control " id="cep"
-                                           type="text" name="cep">
+                                    <label for="cep">CEP:</label>
+                                    <div class="input-group">
+                                        <input class="form-control cep" id="cep"
+                                               type="text" name="cep">
+                                        <span class="input-group-btn">
+                                            <button id="busca_cep" class="btn btn-default" type="button">Buscar <i
+                                                    class="fa fa-angle-right"></i></button>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Endereco:</label>
                                     <input class="form-control " id="endereco"
-                                           type="text" name="endereco">
+                                           type="text" name="endereco" placeholder="Avenida Barao Vermelho">
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Numero:</label>

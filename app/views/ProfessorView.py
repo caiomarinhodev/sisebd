@@ -86,6 +86,20 @@ def view_professor(request, id):
         return redirect('/professores')
 
 
+def remove_professor(request, id):
+    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    try:
+        professor = Professor.objects.get(id=id)
+        igreja.professores.remove(professor)
+        classe = Classe.objects.get(id=professor.classe_set.all()[0].id)
+        classe.professor = None
+        classe.save()
+        professor.delete()
+        return redirect('/professores')
+    except:
+        return redirect('/professores')
+
+
 def get_data_formated(data):
     # replace = data.replace('/', '-')
     date = datetime.datetime.strptime(data, '%d/%m/%Y')

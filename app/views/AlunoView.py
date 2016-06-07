@@ -78,11 +78,21 @@ def edit_aluno(request, id):
 def view_aluno(request, id):
     pessoa = Pessoa.objects.get(id=id)
     igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    if request.method == 'GET':
-        return render_to_response('view_aluno.html', {'igreja': igreja,
-                                                      'pessoa': pessoa},
-                                  context_instance=RequestContext(request))
-    else:
+    try:
+        aulas = pessoa.aluno_set.all()[0].classe_set.all()[0].aulas.all()
+        presencas = (len(aulas.filter(presentes__id__exact=pessoa.aluno_set.all()[0].id))*100)/len(aulas)
+        faltas = 100 - presencas
+
+        if request.method == 'GET':
+            return render_to_response('view_aluno.html', {'igreja': igreja,
+                                                          'pessoa': pessoa,
+                                                          'aulas': len(aulas),
+                                                          'presencas': presencas,
+                                                          'faltas':faltas},
+                                      context_instance=RequestContext(request))
+        else:
+            return redirect('/alunos')
+    except:
         return redirect('/alunos')
 
 

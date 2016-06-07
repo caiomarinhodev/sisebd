@@ -28,24 +28,26 @@ def post_add_aula(request, id):
     data = request.POST
     classe = Classe.objects.get(id=id)
     igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    presentes_arr = data.getlist('presentes')
-    new_aula = Aula(data=get_data_formated(data['data']),
-                    ofertas=data['ofertas'], biblias=data['biblias'],
-                    revistas=data['revistas'], visitantes=data['visitantes'])
-    new_aula.save()
-    for p_id in presentes_arr:
-        al = Aluno.objects.get(id=p_id)
-        new_aula.presentes.add(al)
-    for fal in classe.alunos.all():
-        if str(fal.id) not in presentes_arr:
-            new_aula.faltosos.add(al)
-    new_aula.save()
-    classe.aulas.add(new_aula)
-    classe.save()
-    igreja.aulas.add(new_aula)
-    igreja.save()
-    return redirect('/aulas')
-    return redirect('/add-aula')
+    try:
+        presentes_arr = data.getlist('presentes')
+        new_aula = Aula(data=get_data_formated(data['data']),
+                        ofertas=data['ofertas'], biblias=data['biblias'],
+                        revistas=data['revistas'], visitantes=data['visitantes'])
+        new_aula.save()
+        for p_id in presentes_arr:
+            al = Aluno.objects.get(id=p_id)
+            new_aula.presentes.add(al)
+        for fal in classe.alunos.all():
+            if str(fal.id) not in presentes_arr:
+                new_aula.faltosos.add(al)
+        new_aula.save()
+        classe.aulas.add(new_aula)
+        classe.save()
+        igreja.aulas.add(new_aula)
+        igreja.save()
+        return redirect('/aulas')
+    except:
+        return redirect('/add-aula')
 
 
 def remove_aula(request, id):

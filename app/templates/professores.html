@@ -35,7 +35,11 @@
                                             <td>{{ prof.pessoa.id }}</td>
                                             <td>{{ prof.pessoa.nome }}</td>
                                             <td>{{ prof.pessoa.sexo }}</td>
-                                            <td>{{ prof.classe_set.all }}</td>
+                                            <td>
+                                                {% for classe in prof.classe_set.all %}
+                                                    {{ classe.nome }}
+                                                {% endfor %}
+                                            </td>
                                             <td>{{ prof.pessoa.created_at|date:"d/m/Y G:i" }}</td>
                                             <td>{{ prof.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
                                             <td class="text-center">
@@ -49,7 +53,7 @@
                                                 </a>
                                             </td>
                                             <td class="text-center">
-                                                <a href="/remove-professor/{{ prof.id }}">
+                                                <a class="remover" data-link="/remove-professor/{{ prof.id }}">
                                                     <i class="lixo fa fa-trash-o"></i>
                                                 </a>
                                             </td>

@@ -1,4 +1,5 @@
 import datetime
+from django.contrib import messages
 
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
@@ -34,19 +35,22 @@ def post_add_aula(request, id):
                         ofertas=data['ofertas'], biblias=data['biblias'],
                         revistas=data['revistas'], visitantes=data['visitantes'])
         new_aula.save()
+        print presentes_arr
         for p_id in presentes_arr:
             al = Aluno.objects.get(id=p_id)
             new_aula.presentes.add(al)
         for fal in classe.alunos.all():
             if str(fal.id) not in presentes_arr:
-                new_aula.faltosos.add(al)
+                new_aula.faltosos.add(fal)
         new_aula.save()
         classe.aulas.add(new_aula)
         classe.save()
         igreja.aulas.add(new_aula)
         igreja.save()
+        messages.success(request, 'Aula criada com sucesso.')
         return redirect('/aulas')
     except:
+        messages.error(request, 'Houve algum erro.')
         return redirect('/add-aula')
 
 
@@ -58,8 +62,10 @@ def remove_aula(request, id):
         id_classe = aula.classe_set.all()
         classe = Classe.objects.get(id=id_classe[0].id)
         aula.delete()
+        messages.success(request, 'Aula removida com sucesso.')
         return redirect('/aulas')
     except:
+        messages.error(request, 'Nao foi possivel remover aula.')
         return redirect('/aulas')
 
 

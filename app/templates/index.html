@@ -65,6 +65,121 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#inicio').addClass('active');
+            var steps = [
+                {
+                    placement: "center",
+                    content: 'Ola, Bem vindo ao SisEBD o seu sistema de gerenciamento da escola biblica dominical de ' +
+                    'sua igreja. Com nosso sistema, o seu controle fica armazenado em "cloud", podendo acessar de ' +
+                    'qualquer lugar.',
+                    orphan: true
+                },
+                {
+                    element: "#departamentos",
+                    placement: "top",
+                    content: 'Aqui voce pode cadastrar novos departamentos e lista todos eles.',
+                    onShown: function () {
+                        $('#departamentos').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#departamentos').removeClass('active');
+                    }
+                },
+                {
+                    element: "#classes",
+                    placement: "bottom",
+                    content: 'Este menu gerencia a criacao de novas classes atribuindo um professor ' +
+                    'e um departamento a elas.',
+                    onShown: function () {
+                        $('#classes').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#classes').removeClass('active');
+                    }
+                },
+                {
+                    element: "#alunos",
+                    placement: "bottom",
+                    content: 'Matricula novos alunos e analisa o perfil de cada um.',
+                    onShown: function () {
+                        $('#alunos').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#alunos').removeClass('active');
+                    }
+                },
+                {
+                    element: "#professores",
+                    placement: "bottom",
+                    content: 'Lista todos os professores associados a cada classe.',
+                    onShown: function () {
+                        $('#professores').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#professores').removeClass('active');
+                    }
+                },
+                {
+                    element: "#aulas",
+                    placement: "bottom",
+                    content: 'Cadastra as aulas dominicais, e mantem controle de faltas dos alunos.',
+                    onShown: function () {
+                        $('#aulas').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#aulas').removeClass('active');
+                    }
+                },
+                {
+                    element: "#diarios",
+                    placement: "top",
+                    content: 'Gera uma visualizacao de cada aula registrada.',
+                    onShown: function () {
+                        $('#diarios').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#diarios').removeClass('active');
+                    }
+                },
+                {
+                    element: "#relatorios",
+                    placement: "bottom",
+                    content: 'Mostra dados da conta, e percentuais da sua EBD.',
+                    onShown: function () {
+                        $('#relatorios').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#relatorios').removeClass('active');
+                    }
+                },
+
+                {
+                    element: "#data_atualizada",
+                    placement: "top",
+                    content: 'Data de hoje.'
+                },
+                {
+                    element: "#time",
+                    placement: "bottom",
+                    content: 'Hora atualizada.'
+                },
+                {
+                    element: ".content",
+                    placement: "top",
+                    content: 'Aqui fica o conteudo do menu selecionado.'
+                },
+                {
+                    element: "#logout",
+                    placement: "right",
+                    content: 'Aqui para sair do sistema.',
+                    onShown: function () {
+                        $('#logout').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#logout').removeClass('active');
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

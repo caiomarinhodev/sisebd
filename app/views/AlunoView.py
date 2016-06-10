@@ -1,4 +1,5 @@
 import datetime
+from django.contrib import messages
 
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
@@ -32,14 +33,17 @@ def add_aluno(request):
                                 bairro=data['bairro'], cidade=data['cidade'], cep=data['cep'], estado=data['estado'])
             new_pessoa.save()
             new_aluno = Aluno(pessoa=new_pessoa)
+            new_aluno.foto = 'http://lorempixel.com/128/128/'
             new_aluno.save()
             classe = Classe.objects.get(id=data['id_classe'])
             classe.alunos.add(new_aluno)
             classe.save()
             igreja.alunos.add(new_aluno)
             igreja.save()
+            messages.success(request, 'Aluno criado com sucesso.')
             return redirect('/alunos')
         except:
+            messages.error(request, 'Erro ao criar aluno.')
             return redirect('/add-aluno')
 
 
@@ -70,8 +74,10 @@ def edit_aluno(request, id):
             pessoa.cep = data['cep']
             pessoa.estado = data['estado']
             pessoa.save()
+            messages.success(request, 'Aluno editado com sucesso.')
             return redirect('/alunos')
         except:
+            messages.error(request, 'Houve algum erro.')
             return redirect('/alunos')
 
 
@@ -104,8 +110,10 @@ def remove_aluno(request, id):
         classe = Classe.objects.get(id=aluno.classe_set.all()[0].id)
         classe.alunos.remove(aluno)
         aluno.delete()
+        messages.success(request, 'Aluno deletado com sucesso.')
         return redirect('/alunos')
     except:
+        messages.error(request, 'Nao foi possivel remover aluno.')
         return redirect('/alunos')
 
 

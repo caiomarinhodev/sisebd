@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
@@ -27,8 +28,10 @@ def add_classe(request):
             depto.save()
             igreja.classes.add(new_classe)
             igreja.save()
+            messages.success(request, 'Classe criada com sucesso.')
             return redirect('/classes')
         except:
+            messages.error(request, 'Houve algum erro.')
             return redirect('/add-classe')
 
 
@@ -46,8 +49,10 @@ def edit_classe(request, id):
             classe.idade_minima = data['idade_minima']
             classe.idade_maxima = data['idade_maxima']
             classe.save()
+            messages.success(request, 'Classe editada com sucesso.')
             return redirect('/classes')
         except:
+            messages.error(request, 'Nao foi possivel editar classe.')
             return redirect('/classes')
 
 
@@ -70,6 +75,8 @@ def remove_classe(request, id):
         depto = Departamento.objects.get(id=classe.departamento_set.all()[0].id)
         depto.classes.remove(classe)
         classe.delete()
+        messages.success(request, 'Classe removida com sucesso.')
         return redirect('/classes')
     except:
+        messages.error(request, 'Nao foi possivel remover classe.')
         return redirect('/classes')

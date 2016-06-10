@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 from app.models import Igreja, Departamento
+from django.contrib import messages
 
 
 def list_departamentos(request):
@@ -22,8 +23,10 @@ def add_departamento(request):
             new_depto.save()
             igreja.departamentos.add(new_depto)
             igreja.save()
+            messages.success(request, 'Departamento criado com sucesso.')
             return redirect('/departamentos')
         except:
+            messages.error(request, 'Nao foi possivel criar o departamento')
             return redirect('/add-depto')
 
 
@@ -39,8 +42,10 @@ def edit_departamento(request, id):
         try:
             depto.descricao = data['descricao']
             depto.save()
+            messages.success(request, 'Departamento editado com sucesso.')
             return redirect('/departamentos')
         except:
+            messages.error(request, 'Houve algum erro.')
             return redirect('/departamentos')
 
 
@@ -61,6 +66,7 @@ def remove_departamento(request, id):
         depto = Departamento.objects.get(id=id)
         igreja.departamentos.remove(depto)
         depto.delete()
+        messages.success(request, 'Departamento deletado com sucesso.')
         return redirect('/departamentos')
     except:
         return redirect('/departamentos')

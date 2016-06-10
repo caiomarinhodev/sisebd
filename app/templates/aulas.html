@@ -44,12 +44,16 @@
                                     <tbody>
                                     {% for aula in igreja.aulas.all %}
                                         <tr>
-                                            <td>{{ aula.id }}</td>
-                                            <td>{{ aula.classe_set.all }}</td>
+                                            <td><a href="/view-diario/{{ aula.id }}">{{ aula.id }}</a></td>
+                                            <td>
+                                                {% for classe in aula.classe_set.all %}
+                                                    {{ classe.nome }}
+                                                {% endfor %}
+                                            </td>
                                             <td>{{ aula.data|date:"d/m/Y" }}</td>
                                             <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
                                             <td class="text-center">
-                                                <a href="/remove-aula/{{ aula.id }}">
+                                                <a class="remover" data-link="/remove-aula/{{ aula.id }}">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </td>

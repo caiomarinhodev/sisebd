@@ -1,4 +1,5 @@
 import datetime
+from django.contrib import messages
 
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
@@ -32,14 +33,17 @@ def add_professor(request):
                                 bairro=data['bairro'], cidade=data['cidade'], cep=data['cep'], estado=data['estado'])
             new_pessoa.save()
             new_professor = Professor(pessoa=new_pessoa)
+            new_professor.foto = 'http://lorempixel.com/128/128/'
             new_professor.save()
             depto = Departamento.objects.get(id=data['id_depto'])
             depto.professores.add(new_professor)
             depto.save()
             igreja.professores.add(new_professor)
             igreja.save()
+            messages.success(request, 'Professor adicionado com sucesso.')
             return redirect('/professores')
         except:
+            messages.error(request, 'Houve algum erro.')
             return redirect('/add-professor')
 
 
@@ -70,8 +74,10 @@ def edit_professor(request, id):
             pessoa.cep = data['cep']
             pessoa.estado = data['estado']
             pessoa.save()
+            messages.success(request, 'Professor editado com sucesso.')
             return redirect('/professores')
         except:
+            messages.error(request, 'Nao foi possivel editar o professor.')
             return redirect('/professores')
 
 
@@ -95,8 +101,10 @@ def remove_professor(request, id):
         classe.professor = None
         classe.save()
         professor.delete()
+        messages.success(request, 'Professor removido com sucesso.')
         return redirect('/professores')
     except:
+        messages.error(request, 'Nao foi possivel remover o professor.')
         return redirect('/professores')
 
 

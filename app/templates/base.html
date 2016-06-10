@@ -15,7 +15,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href='{% static 'dist/css/AdminLTE.min.css' %}'>
+    <link rel="stylesheet" href='{% static 'dist/css/AdminLTE.css' %}'>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href='{% static 'dist/css/skins/_all-skins.min.css' %}'>
@@ -32,6 +32,8 @@
 
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/u/bs/dt-1.10.12,r-2.1.0/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.min.css"/>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -156,14 +158,19 @@
                         <i class="fa fa-list-alt"></i> <span>Diarios</span>
                     </a>
                 </li>
-                <li id="configuracoes">
-                    <a href="#">
-                        <i class="fa fa-cogs"></i> <span>Configurações</span>
+                <li id="relatorios">
+                    <a href="/relatorios">
+                        <i class="fa fa-pie-chart"> <span> Relatórios</span></i>
                     </a>
                 </li>
+                {#                <li id="configuracoes">#}
+                {#                    <a href="#">#}
+                {#                        <i class="fa fa-cogs"></i> <span>Configurações</span>#}
+                {#                    </a>#}
+                {#                </li>#}
                 <li id="ajuda">
-                    <a href="#">
-                        <i class="fa fa-question"></i> <span>Ajuda</span>
+                    <a onclick="clearTour(window.location.href);">
+                        <i class="fa fa-question"></i><span>Ajuda</span>
                     </a>
                 </li>
                 <li id="logout">
@@ -286,6 +293,11 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js"></script>
 
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.min.js"></script>
+
+<script src="{% static 'dist/js/customTour.js' %}"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#table').DataTable({});
@@ -344,11 +356,44 @@
             $(this).removeClass('fa-trash');
             $(this).addClass('fa-trash-o');
         });
+
+        $('.remover').click(function () {
+            var link = $(this).data('link');
+            swal({
+                        title: "Tem certeza?",
+                        text: "Deletando este item, removeremos do banco de dados.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Sim, delete!",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        window.location.href = link;
+                    });
+        });
     });
 
     setInterval(function () {
         $('#time').text(moment().locale('pt-br').format('LTS'));
     }, 1000);
 </script>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <script>
+                $(document).ready(function () {
+                    swal("Erro", "{{ message }}", "error")
+                });
+            </script>
+        {% else %}
+            <script>
+                $(document).ready(function () {
+                    swal("Sucesso", "{{ message }}", "success")
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 </body>
 </html>

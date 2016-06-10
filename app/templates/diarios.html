@@ -59,6 +59,65 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#diarios').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Aqui temos uma tabela contendo os diarios das aulas dominicais registradas.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".odd",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Item da tabela.',
+                    onShown: function () {
+                        array = $('.popover');
+                        odds = $('.odd');
+                        for (var i = 0; i < array.length; i++) {
+                            if (i > 0) {
+                                odds[i].className = 'odd';
+                                array[i].setAttribute('style', 'display:none');
+                            }
+                        }
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "td.text-center:eq(0)",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Clique aqui para ver o conteudo total da aula registrada.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "#table_filter",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Busque um item neste campo.'
+                },
+                {
+                    element: "#table_length",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Veja a quantidade de itens cadastrados.'
+                },
+                {
+                    element: "#table_paginate",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Paginacao.'
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

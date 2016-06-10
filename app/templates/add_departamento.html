@@ -12,7 +12,8 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="descricao">Nome departamento:</label>
-                            <input class="form-control input-lg" id="descricao" placeholder="Jovens" type="text" name="descricao"
+                            <input class="form-control input-lg" id="descricao" placeholder="Jovens" type="text"
+                                   name="descricao"
                                    required>
                         </div>
                     </div>
@@ -27,8 +28,41 @@
         </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
-           $('#departamentos').addClass('active');
+        $(document).ready(function () {
+            $('#departamentos').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Aqui temos um formulario para cadastrar um novo departamento.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-body",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Preencha o campo obrigatorio.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-footer",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Botoes de acao.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

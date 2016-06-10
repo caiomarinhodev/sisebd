@@ -97,8 +97,10 @@ def view_aluno(request, id):
                                                           'faltas':faltas},
                                       context_instance=RequestContext(request))
         else:
+            messages.error(request, 'Nao foi possivel ver aluno.')
             return redirect('/alunos')
     except:
+        messages.error(request, 'Houve algum erro.')
         return redirect('/alunos')
 
 

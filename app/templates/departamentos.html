@@ -5,7 +5,8 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Departamentos</h3>
-                    <a href="/add-depto" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Adicionar
+                    <a id="add-depto" href="/add-depto" class="btn btn-primary pull-right"><i class="fa fa-plus"></i>
+                        Adicionar
                         Departamento</a>
                 </div>
                 <!-- /.box-header -->
@@ -69,6 +70,105 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#departamentos').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Aqui temos uma tabela contendo todos os departamentos cadastrados.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "#add-depto",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Clicando aqui voce pode cadastrar novos departamentos.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "#table",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Tabela de dados.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".odd",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Item da tabela.',
+                    onShown: function () {
+                        array = $('.popover');
+                        odds = $('.odd');
+                        for (var i = 0; i < array.length; i++) {
+                            if (i > 0) {
+                                odds[i].className = 'odd';
+                                array[i].setAttribute('style', 'display:none');
+                            }
+                        }
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "td.text-center:eq(0)",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Vai para tela de edicao do departamento selecionado.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "td.text-center:eq(1)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Vai para a tela de visualizacao do item.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "td.text-center:eq(2)",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Deleta o departamento.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: "#table_filter",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Busque um item neste campo.'
+                },
+                {
+                    element: "#table_length",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Veja a quantidade de itens cadastrados.'
+                },
+                {
+                    element: "#table_paginate",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Paginacao.'
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

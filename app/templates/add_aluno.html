@@ -93,7 +93,7 @@
                                         <input class="form-control cep" id="cep"
                                                type="text" name="cep">
                                         <span class="input-group-btn">
-                                            <button id="busca_cep" class="btn btn-default" type="button">Buscar  <i
+                                            <button id="busca_cep" class="btn btn-default" type="button">Buscar <i
                                                     class="fa fa-angle-right"></i></button>
                                         </span>
                                     </div>
@@ -167,6 +167,90 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#alunos').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Aqui temos um formulario para matricular o aluno.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-body",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Preencha os campos.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(0)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Insira o nome do aluno.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(2)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'A classe a qual ele vai participar durante a ebd.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(5)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Sua data de nascimento..',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(8)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Se cadastrar o email, o aluno vai ter acesso ao sistema ' +
+                    'para ver suas estatisticas, apenas.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(12)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Inserindo um CEP valido, ao clicar em buscar, o preenchimento do endereco sera automatico.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-footer",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Botoes de acao.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

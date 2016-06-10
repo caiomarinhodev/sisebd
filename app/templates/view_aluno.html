@@ -54,14 +54,16 @@
                                     <input class="form-control " id="email"
                                            type="email" name="email" value="{{ pessoa.email }}" readonly>
                                 </div>
-                                <div class="row">
+                                <div class="row knob-info" >
                                     <div class="col-md-4 text-center">
                                         <input type="text" class="knob" value="100"
                                                data-thickness="0.3"
                                                data-width="120" data-height="120" data-fgColor="#00c0ef"
                                                data-readonly="true">
 
-                                        <div class="knob-label" style="font-size: 14px;font-weight: bold;">{{ aulas }} Aulas Cadastradas</div>
+                                        <div class="knob-label" style="font-size: 14px;font-weight: bold;">{{ aulas }}
+                                            Aulas Cadastradas
+                                        </div>
                                     </div>
                                     <div class="col-md-4 text-center">
                                         <input type="text" class="knob" value="{{ presencas }}"
@@ -69,7 +71,8 @@
                                                data-width="120" data-height="120" data-fgColor="#00a65a"
                                                data-readonly="true">
 
-                                        <div class="knob-label" style="font-size: 14px;font-weight: bold;">% Presente</div>
+                                        <div class="knob-label" style="font-size: 14px;font-weight: bold;">% Presente
+                                        </div>
                                     </div>
                                     <div class="col-md-4 text-center">
                                         <input type="text" class="knob" value="{{ faltas }}"
@@ -77,7 +80,8 @@
                                                data-width="120" data-height="120" data-fgColor="#f56954"
                                                data-readonly="true">
 
-                                        <div class="knob-label" style="font-size: 14px;font-weight: bold;">% Faltas</div>
+                                        <div class="knob-label" style="font-size: 14px;font-weight: bold;">% Faltas
+                                        </div>
                                     </div>
                                 </div>
 
@@ -150,6 +154,7 @@
 
                     <div class="box-footer">
                         <a href="/alunos" class="btn btn-default pull-left">Voltar</a>
+                        <a href="/edit-aluno/{{ pessoa.id }}" class="btn btn-primary pull-right">Editar</a>
                     </div>
                 </form>
             </div>
@@ -158,6 +163,39 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#alunos').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Neste formulario visualize as informacoes do aluno.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".knob-info",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Atente para as estatisticas gerais.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-footer",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Botoes de acao.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

@@ -40,14 +40,38 @@
 
                     <div class="box-footer">
                         <a href="/classes" class="btn btn-default pull-left">Voltar</a>
+                        <a href="/edit-classe/{{ classe.id }}" class="btn btn-primary pull-right">Editar</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
-           $('#departamentos').addClass('active');
+        $(document).ready(function () {
+            $('#departamentos').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Neste formulario visualize as informacoes da classe.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-footer",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Botoes de acao.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

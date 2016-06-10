@@ -29,6 +29,39 @@
     <script type="text/javascript">
         $(document).ready(function(){
            $('#departamentos').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Neste formulario edite as novas informacoes do departamento.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-body",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Preencha o campo obrigatorio.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-footer",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Botoes de acao.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

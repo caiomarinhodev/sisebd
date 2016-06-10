@@ -20,7 +20,7 @@
                             <select class="form-control " id="id_depto" name="id_depto" required>
                                 <option value=""></option>
                                 {% for depto in igreja.departamentos.all %}
-                                    <option value="{{depto.id }}">{{ depto.descricao }}</option>
+                                    <option value="{{ depto.id }}">{{ depto.descricao }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -57,6 +57,59 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#classes').addClass('active');
+            var steps = [
+                {
+                    element: ".content",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Aqui temos um formulario para cadastrar uma nova classe.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-body",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Preencha os campos.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(1)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Note que a classe pertence a um departamento.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(2)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Note que a classe deve ter um professor previamente cadastrado.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box-footer",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Botoes de acao.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }
+            ];
+            xinguTour(window.location.href, steps);
         });
     </script>
     <!-- /.row -->

@@ -8,6 +8,9 @@ from app.models import Pessoa, Professor, Aluno, Igreja, Departamento, Classe
 
 
 # Render LoginInit
+from app.views import RelatorioView
+
+
 def get_login(request):
     return render_to_response('login.html', context_instance=RequestContext(request))
 
@@ -61,9 +64,7 @@ def loga(request, categoria):
     else:
         igreja = None
         try:
-            igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-            return render_to_response('index.html', {'igreja': igreja},
-                                      context_instance=RequestContext(request))
+            return RelatorioView.get_relatorios(request)
         except Igreja.DoesNotExist:
             return redirect('/register')
 

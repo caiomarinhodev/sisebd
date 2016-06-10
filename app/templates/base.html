@@ -35,8 +35,8 @@
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.min.css"/>
     <style>
-        #ajuda{
-            cursor:pointer;
+        #ajuda {
+            cursor: pointer;
         }
     </style>
 
@@ -163,11 +163,11 @@
                         <i class="fa fa-list-alt"></i> <span>Diarios</span>
                     </a>
                 </li>
-                <li id="relatorios">
-                    <a href="/relatorios">
-                        <i class="fa fa-pie-chart"> <span> Relatórios</span></i>
-                    </a>
-                </li>
+                {#                <li id="relatorios">#}
+                {#                    <a href="/relatorios">#}
+                {#                        <i class="fa fa-pie-chart"> <span> Relatórios</span></i>#}
+                {#                    </a>#}
+                {#                </li>#}
                 {#                <li id="configuracoes">#}
                 {#                    <a href="#">#}
                 {#                        <i class="fa fa-cogs"></i> <span>Configurações</span>#}
@@ -286,7 +286,9 @@
 <!-- FastClick -->
 <script src='{% static 'plugins/fastclick/fastclick.min.js' %}'></script>
 
-<script src='{% static 'plugins/input-mask/jquery.inputmask.js' %}'></script>
+<script src='{% static 'plugins/chartjs/Chart.js' %}'></script>
+
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 <!-- AdminLTE App -->
 <script src='{% static 'dist/js/app.min.js' %}'></script>
 
@@ -302,6 +304,8 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.min.js"></script>
 
 <script src="{% static 'dist/js/customTour.js' %}"></script>
+
+<script src="{% static "dist/js/chartReport.js" %}"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -344,7 +348,14 @@
 
         $('.telefone').inputmask('(99) 9999[9]-9999');
         $('[name=cep]').inputmask('99.999-999');
-        $('.moeda').inputmask('R$ 999.999,99', {numericInput: true});
+        $('.moeda').inputmask("numeric", {
+            radixPoint: ".",
+            groupSeparator: ".",
+            digits: 2,
+            autoGroup: true,
+            rightAlign: false
+        });
+
         $('.knob').knob();
         $('[name=data_nascimento]').change(function () {
             var idade = 0;

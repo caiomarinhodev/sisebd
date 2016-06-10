@@ -1,188 +1,346 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="row">
-        <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>{{ igreja.departamentos.all|length }}</h3>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-database"></i></span>
 
-                    <p>Departamentos</p>
+                <div class="info-box-content">
+                    <span class="info-box-text">Dados Usados</span>
+                    <span class="info-box-number">{{ dados }}
+                        <small>%</small></span>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-network"></i>
-                </div>
-                <a href="/departamentos" class="small-box-footer">Ver lista <i class="fa fa-arrow-circle-right"></i></a>
+                <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
         </div>
-        <!-- ./col -->
-        <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <h3>{{ igreja.classes.all|length }}</h3>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-credit-card-alt"></i></span>
 
-                    <p>Classes</p>
+                <div class="info-box-content">
+                    <span class="info-box-text">Plano Contratado</span>
+                    <span class="info-box-number">Gratuito</span>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-university"></i>
-                </div>
-                <a href="/classes" class="small-box-footer">Ver lista <i class="fa fa-arrow-circle-right"></i></a>
+                <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
         </div>
-        <!-- ./col -->
-        <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <h3>{{ igreja.alunos.all|length }}</h3>
+        <!-- /.col -->
 
-                    <p>Alunos Matriculados</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-stalker"></i>
-                </div>
-                <a href="/alunos" class="small-box-footer">Mais informacoes <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3>{{ igreja.aulas.all|length }}</h3>
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
 
-                    <p>Aulas Registradas</p>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-institution"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Igreja</span>
+                    <span class="info-box-number">{{ igreja.nome_igreja }}</span>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-clipboard"></i>
-                </div>
-                <a href="/aulas" class="small-box-footer">Ver lista <i class="fa fa-arrow-circle-right"></i></a>
+                <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
         </div>
-        <!-- ./col -->
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-phone"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Contato</span>
+                    <span class="info-box-number">{{ igreja.telefone }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">
+                        <form action="/relatorios" method="get">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i
+                                            class="fa fa-calendar-minus-o"></i> </span>
+                                        <input type="text" class="form-control datepicker" id="init_data"
+                                               name="init_data" required>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 text-center" style="padding: 6px 0px 0px 0px;">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i
+                                            class="fa fa-calendar-plus-o"></i> </span>
+                                        <input type="text" class="form-control datepicker" id="end_data"
+                                               name="end_data" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">Buscar</button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </h3>
+                </div>
+                <!-- /.box-header -->
+                <div style="display: block;" class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="text-center">
+                                <strong>Presentes</strong> <i class="fa fa-square" style="color: #4978cc"></i> x
+                                <strong>Faltosos</strong> <i class="fa fa-square" style="color: rgba(56, 106, 174, 0.26)"></i> :<span
+                                    id="initDate"></span>
+                                -
+                                <span id="endDate"></span></strong>
+                            </p>
+
+                            <div class="chart">
+                                <!-- Sales Chart Canvas -->
+                                <canvas height="154" width="603" id="salesChart"
+                                        style="height: 154px; width: 603px;"></canvas>
+                            </div>
+                            <!-- /.chart-responsive -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-4">
+                            <p class="text-center">
+                                <strong>Info Geral</strong>
+                            </p>
+
+                            <div class="progress-group">
+                                <span class="progress-text">Alunos</span>
+                                <span class="progress-number"><b>{{ igreja.alunos.all|length }}</b>/400</span>
+
+                                <div class="progress sm">
+                                    <div id="percent_alunos" class="progress-bar progress-bar-aqua"
+                                         style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">Presentes</span>
+                                <span class="progress-number"><b>{{ presentes }}</b>%</span>
+
+                                <div class="progress sm">
+                                    <div id="percent_presentes" class="progress-bar progress-bar-green"
+                                         style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">Faltosos</span>
+                                <span class="progress-number"><b>{{ faltosos }}</b>%</span>
+
+                                <div class="progress sm">
+                                    <div id="percent_faltosos" class="progress-bar progress-bar-red"
+                                         style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">Visitantes</span>
+                                <span class="progress-number"><b>{{ visitantes }}</b></span>
+
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-yellow" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- ./box-body -->
+                <div style="display: block;" class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <h5 class="description-header">{{ igreja.departamentos.all|length }}</h5>
+                                <span class="description-text">DEPARTAMENTOS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <h5 class="description-header">{{ igreja.professores.all|length }}</h5>
+                                <span class="description-text">PROFESSORES</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <h5 class="description-header">{{ igreja.classes.all|length }}</h5>
+                                <span class="description-text">CLASSES</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+                                <h5 class="description-header">{{ igreja.aulas.all|length }}</h5>
+                                <span class="description-text">AULAS REGISTRADAS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+            <!-- MAP & BOX PANE -->
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Alunos Matriculados</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <ul class="users-list clearfix">
+                        {% for aluno in igreja.alunos.all %}
+                            <li>
+                                {% if aluno.foto %}
+                                    <img src="{{ aluno.foto }}" alt="{{ aluno.pessoa.nome }}">
+                                {% else %}
+                                    <img src="http://lorempixel.com/128/128/" alt="{{ aluno.pessoa.nome }}">
+                                {% endif %}
+                                <a class="users-list-name"
+                                   href="/view-aluno/{{ aluno.pessoa.id }}">{{ aluno.pessoa.nome }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <!-- /.users-list -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                    <a href="/alunos" class="uppercase">Ver Todos Alunos</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-4">
+            <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                    <h3 class="widget-user-username">{{ igreja.nome_responsavel }}</h3>
+                    <h5 class="widget-user-desc">Usuario Adm</h5>
+                </div>
+                <div class="widget-user-image">
+                    {% if igreja.foto %}
+                        <img class="img-circle" src="{{ igreja.foto }}" alt="{{ igreja.nome_responsavel }}">
+                    {% else %}
+                        <img class="img-circle" src="http://lorempixel.com/128/128/"
+                             alt="{{ igreja.nome_responsavel }}">
+                    {% endif %}
+
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">{{ igreja.id }}</h5>
+                                <span class="description-text">ID</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">{{ igreja.qtd_membros }}</h5>
+                                <span class="description-text">MEMBROS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4">
+                            <div class="description-block">
+                                <h5 class="description-header">{{ igreja.updated_at|date:"d/m/Y H:m" }}</h5>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- Info Boxes Style 2 -->
+        </div>
+        <!-- /.col -->
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+            console.log('{{ initData }}');
+            console.log('{{ endData }}');
+            console.log({{ arr_datas|safe }});
+            console.log({{ arr_faltosos|safe }});
+            console.log({{ arr_presentes|safe }});
+            palunos = parseFloat({{ igreja.alunos.all|length }}) / 4;
+            ppresentes = parseFloat({{ presentes }});
+            pfaltosos = parseFloat({{ faltosos }});
             $('#inicio').addClass('active');
-            var steps = [
-                {
-                    placement: "center",
-                    content: 'Ola, Bem vindo ao SisEBD o seu sistema de gerenciamento da escola biblica dominical de ' +
-                    'sua igreja. Com nosso sistema, o seu controle fica armazenado em "cloud", podendo acessar de ' +
-                    'qualquer lugar.',
-                    backdrop: true,
-                    orphan: true
-                },
-                {
-                    element: "#departamentos",
-                    placement: "top",
-                    content: 'Aqui voce pode cadastrar novos departamentos e lista todos eles.',
-                    onShown: function () {
-                        $('#departamentos').addClass('active');
+            $('#initDate').text('{{ initData }}');
+            $('#endDate').text('{{ endData }}');
+            $('#percent_alunos').attr('style', 'width:' + palunos + '%');
+            $('#percent_presentes').attr('style', 'width:' + ppresentes + '%');
+            $('#percent_faltosos').attr('style', 'width:' + pfaltosos + '%');
+            var dataReport = {
+                labels: {{ arr_datas|safe }},
+                datasets: [
+                    {
+                        label: "Presentes",
+                        fillColor: "rgb(210, 214, 222)",
+                        strokeColor: "rgb(210, 214, 222)",
+                        pointColor: "rgb(210, 214, 222)",
+                        pointStrokeColor: "#c1c7d1",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgb(220,220,220)",
+                        data: {{ arr_faltosos|safe }}
                     },
-                    onHidden: function () {
-                        $('#departamentos').removeClass('active');
-                    }
-                },
-                {
-                    element: "#classes",
-                    placement: "bottom",
-                    content: 'Este menu gerencia a criacao de novas classes atribuindo um professor ' +
-                    'e um departamento a elas.',
-                    onShown: function () {
-                        $('#classes').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#classes').removeClass('active');
-                    }
-                },
-                {
-                    element: "#alunos",
-                    placement: "bottom",
-                    content: 'Matricula novos alunos e analisa o perfil de cada um.',
-                    onShown: function () {
-                        $('#alunos').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#alunos').removeClass('active');
-                    }
-                },
-                {
-                    element: "#professores",
-                    placement: "bottom",
-                    content: 'Lista todos os professores associados a cada classe.',
-                    onShown: function () {
-                        $('#professores').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#professores').removeClass('active');
-                    }
-                },
-                {
-                    element: "#aulas",
-                    placement: "bottom",
-                    content: 'Cadastra as aulas dominicais, e mantem controle de faltas dos alunos.',
-                    onShown: function () {
-                        $('#aulas').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#aulas').removeClass('active');
-                    }
-                },
-                {
-                    element: "#diarios",
-                    placement: "top",
-                    content: 'Gera uma visualizacao de cada aula registrada.',
-                    onShown: function () {
-                        $('#diarios').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#diarios').removeClass('active');
-                    }
-                },
-                {
-                    element: "#relatorios",
-                    placement: "bottom",
-                    content: 'Mostra dados da conta, e percentuais da sua EBD.',
-                    onShown: function () {
-                        $('#relatorios').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#relatorios').removeClass('active');
-                    }
-                },
+                    {
+                        label: "Faltosos",
+                        fillColor: "rgba(60,141,188,0.9)",
+                        strokeColor: "rgba(60,141,188,0.8)",
+                        pointColor: "#3b8bba",
+                        pointStrokeColor: "rgba(60,141,188,1)",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(60,141,188,1)",
+                        data: {{ arr_presentes|safe }}
 
-                {
-                    element: "#data_atualizada",
-                    placement: "top",
-                    content: 'Data de hoje.'
-                },
-                {
-                    element: "#time",
-                    placement: "bottom",
-                    content: 'Hora atualizada.'
-                },
-                {
-                    element: ".content",
-                    placement: "top",
-                    backdrop: true,
-                    content: 'Aqui fica o conteudo do menu selecionado.'
-                },
-                {
-                    element: "#logout",
-                    placement: "right",
-                    content: 'Aqui para sair do sistema.',
-                    onShown: function () {
-                        $('#logout').addClass('active');
-                    },
-                    onHidden: function () {
-                        $('#logout').removeClass('active');
                     }
-                }
-            ];
-            xinguTour(window.location.href, steps);
+                ]
+            };
+            init_report(dataReport);
         });
     </script>
-    <!-- /.row -->
 {% endblock %}

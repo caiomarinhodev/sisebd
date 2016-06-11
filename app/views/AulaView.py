@@ -59,8 +59,12 @@ def remove_aula(request, id):
     try:
         aula = Aula.objects.get(id=id)
         igreja.aulas.remove(aula)
-        id_classe = aula.classe_set.all()
-        classe = Classe.objects.get(id=id_classe[0].id)
+        try:
+            classe = Classe.objects.get(id=aula.classe_set.first().id)
+            classe.aulas.remove(aula)
+            classe.save()
+        except:
+            pass
         aula.delete()
         messages.success(request, 'Aula removida com sucesso.')
         return redirect('/aulas')

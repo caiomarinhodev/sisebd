@@ -62,5 +62,5 @@ urlpatterns = [
     url(r'^remove-aula/(?P<id>\d+)', views.AulaView.remove_aula, name='remove-aula'),
     url(r'^diarios/', views.DiarioView.list_diarios, name='diarios'),
     url(r'^view-diario/(?P<id>\d+)', views.DiarioView.view_diario, name='view-diario'),
-    url(r'^relatorios', views.RelatorioView.get_relatorios, name='relatorios'),
+    url(r'^filter-relatorio', views.RelatorioView.get_filter_relatorio, name='filter-relatorio'),
 ]

@@ -74,6 +74,13 @@ def edit_aluno(request, id):
             pessoa.cep = data['cep']
             pessoa.estado = data['estado']
             pessoa.save()
+            aluno_modificado = pessoa.aluno_set.first()
+            classeAtual = aluno_modificado.classe_set.first()
+            classeAtual.alunos.remove(aluno_modificado)
+            classeAtual.save()
+            classeNova = Classe.objects.get(id=data['id_classe'])
+            classeNova.alunos.add(aluno_modificado)
+            classeNova.save()
             messages.success(request, 'Aluno editado com sucesso.')
             return redirect('/alunos')
         except:
@@ -86,7 +93,10 @@ def view_aluno(request, id):
     igreja = Igreja.objects.get(email_responsavel=request.session['email'])
     try:
         aulas = pessoa.aluno_set.all()[0].classe_set.all()[0].aulas.all()
-        presencas = (len(aulas.filter(presentes__id__exact=pessoa.aluno_set.all()[0].id))*100)/len(aulas)
+        if len(aulas) > 0:
+            presencas = (len(aulas.filter(presentes__id__exact=pessoa.aluno_set.all()[0].id))*100)/len(aulas)
+        else:
+            presencas = 100
         faltas = 100 - presencas
 
         if request.method == 'GET':
@@ -109,8 +119,13 @@ def remove_aluno(request, id):
     try:
         aluno = Aluno.objects.get(id=id)
         igreja.alunos.remove(aluno)
-        classe = Classe.objects.get(id=aluno.classe_set.all()[0].id)
-        classe.alunos.remove(aluno)
+        igreja.save()
+        try:
+            classe = Classe.objects.get(id=aluno.classe_set.first().id)
+            classe.alunos.remove(aluno)
+            classe.save()
+        except:
+            pass
         aluno.delete()
         messages.success(request, 'Aluno deletado com sucesso.')
         return redirect('/alunos')

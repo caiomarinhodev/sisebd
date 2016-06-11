@@ -23,7 +23,6 @@ function xinguTour(name, array) {
         steps: array
     });
     tour.init();
-    tour.start();
 }
 
 function makeName(name) {

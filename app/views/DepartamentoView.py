@@ -57,6 +57,7 @@ def view_departamento(request, id):
                                                              'depto': depto},
                                   context_instance=RequestContext(request))
     else:
+        messages.error(request, 'Houve algum erro.')
         return redirect('/departamentos')
 
 
@@ -65,6 +66,7 @@ def remove_departamento(request, id):
     try:
         depto = Departamento.objects.get(id=id)
         igreja.departamentos.remove(depto)
+        igreja.save()
         depto.delete()
         messages.success(request, 'Departamento deletado com sucesso.')
         return redirect('/departamentos')

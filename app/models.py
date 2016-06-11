@@ -128,7 +128,7 @@ class Igreja(models.Model):
     professores = models.ManyToManyField(Professor)
     alunos = models.ManyToManyField(Aluno)
     aulas = models.ManyToManyField(Aula)
-    primeira_entrada = models.BooleanField(default=False)
+    primeira_entrada = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.nome_igreja).upper()

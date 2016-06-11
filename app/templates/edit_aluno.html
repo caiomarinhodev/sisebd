@@ -19,8 +19,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Genero:</label>
-                                    <input class="form-control " id="sexo" name="sexo"
-                                           value="{{ pessoa.sexo }}" readonly>
+                                    <select class="form-control " id="sexo" name="sexo" required>
+                                        <option value=""></option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Feminino">Feminino</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nome">Classe:</label>
+                                    <select class="form-control " id="id_classe" name="id_classe" required>
+                                        <option value=""></option>
+                                        {% for classe in igreja.classes.all %}
+                                            <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Nome do pai:</label>
@@ -147,6 +159,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#alunos').addClass('active');
+            $('[name=sexo]').val('{{ pessoa.sexo }}');
+            $('[name=id_classe]').val('{{ pessoa.aluno_set.first.classe_set.first.id }}');
             $('[name=estado]').val('{{ pessoa.estado }}');
             var steps = [
                 {

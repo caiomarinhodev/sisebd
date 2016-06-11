@@ -48,7 +48,15 @@ def edit_classe(request, id):
             classe.nome = data['nome']
             classe.idade_minima = data['idade_minima']
             classe.idade_maxima = data['idade_maxima']
+            professor = Professor.objects.get(id=data['id_professor'])
+            classe.professor = professor
             classe.save()
+            deptoAtual = classe.departamento_set.first()
+            deptoAtual.classes.remove(classe)
+            deptoAtual.save()
+            depto = Departamento.objects.get(id=data['id_depto'])
+            depto.classes.add(classe)
+            depto.save()
             messages.success(request, 'Classe editada com sucesso.')
             return redirect('/classes')
         except:
@@ -72,8 +80,13 @@ def remove_classe(request, id):
     try:
         classe = Classe.objects.get(id=id)
         igreja.classes.remove(classe)
-        depto = Departamento.objects.get(id=classe.departamento_set.all()[0].id)
-        depto.classes.remove(classe)
+        igreja.save()
+        try:
+            depto = Departamento.objects.get(id=classe.departamento_set.first().id)
+            depto.classes.remove(classe)
+            depto.save()
+        except:
+            pass
         classe.delete()
         messages.success(request, 'Classe removida com sucesso.')
         return redirect('/classes')

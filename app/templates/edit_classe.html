@@ -17,13 +17,21 @@
                         </div>
                         <div class="form-group">
                             <label for="depto">Departamento responsavel:</label>
-                            <input class="form-control " id="depto" type="text"
-                                   value="{{ classe.departamento_set.all }}" readonly>
+                            <select class="form-control " id="id_depto" name="id_depto" required>
+                                <option value=""></option>
+                                {% for depto in igreja.departamentos.all %}
+                                    <option value="{{ depto.id }}">{{ depto.descricao }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="id_professor">Professor da classe:</label>
-                            <input class="form-control " id="id_professor" type="text"
-                                   value="{{ classe.professor.pessoa.nome }}" readonly>
+                            <select class="form-control " id="id_professor" name="id_professor" required>
+                                <option value=""></option>
+                                {% for professor in igreja.professores.all %}
+                                    <option value="{{ professor.id }}">{{ professor.pessoa.nome }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="idade_maxima">Idade maxima:</label>
@@ -49,6 +57,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#classes').addClass('active');
+            $('[name=id_professor]').val('{{ classe.professor.id }}');
+            $('[name=id_depto]').val('{{ classe.departamento_set.first.id }}');
             var steps = [
                 {
                     element: ".content",

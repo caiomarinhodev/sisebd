@@ -74,6 +74,12 @@ def edit_professor(request, id):
             pessoa.cep = data['cep']
             pessoa.estado = data['estado']
             pessoa.save()
+            deptoAntigo = pessoa.professor_set.first().departamento_set.first()
+            deptoAntigo.professores.remove(pessoa.professor_set.first())
+            deptoAntigo.save()
+            deptoNovo = Departamento.objects.get(id=data['id_depto'])
+            deptoNovo.professores.add(pessoa.professor_set.first())
+            deptoNovo.save()
             messages.success(request, 'Professor editado com sucesso.')
             return redirect('/professores')
         except:
@@ -97,9 +103,13 @@ def remove_professor(request, id):
     try:
         professor = Professor.objects.get(id=id)
         igreja.professores.remove(professor)
-        classe = Classe.objects.get(id=professor.classe_set.all()[0].id)
-        classe.professor = None
-        classe.save()
+        igreja.save()
+        try:
+            classe = Classe.objects.get(id=professor.classe_set.all()[0].id)
+            classe.professor = None
+            classe.save()
+        except:
+            pass
         professor.delete()
         messages.success(request, 'Professor removido com sucesso.')
         return redirect('/professores')

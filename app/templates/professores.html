@@ -20,7 +20,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Nome</th>
-                                        <th>Genero</th>
+                                        <th>Departamento</th>
                                         <th>Classe</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
@@ -34,7 +34,7 @@
                                         <tr>
                                             <td>{{ prof.pessoa.id }}</td>
                                             <td>{{ prof.pessoa.nome }}</td>
-                                            <td>{{ prof.pessoa.sexo }}</td>
+                                            <td>{{ prof.departamento_set.first.descricao }}</td>
                                             <td>
                                                 {% for classe in prof.classe_set.all %}
                                                     {{ classe.nome }}

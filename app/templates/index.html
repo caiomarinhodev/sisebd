@@ -65,10 +65,23 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border text-center">
-                    <h3 class="box-title">
-                        <form action="/filter-relatorio" method="get">{% csrf_token %}
-                            <div class="row">
-                                <div class="col-xs-5">
+                    <form action="/filter-relatorio" method="get">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label for="id_classe">Classe:</label>
+                                    <select class="form-control " id="id_classe" name="id_classe" required>
+                                        <option value=""></option>
+                                        {% for classe in igreja.classes.all %}
+                                            <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label for="init_data">Data Inicio:</label>
+
                                     <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon1"><i
                                             class="fa fa-calendar-minus-o"></i> </span>
@@ -76,10 +89,11 @@
                                                name="init_data" required>
                                     </div>
                                 </div>
-                                <div class="col-xs-1 text-center" style="padding: 6px 0px 0px 0px;">
-                                    <label>-</label>
-                                </div>
-                                <div class="col-xs-6">
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label for="end_data">Data Fim:</label>
+
                                     <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon1"><i
                                             class="fa fa-calendar-plus-o"></i> </span>
@@ -93,8 +107,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </h3>
+                        </div>
+                    </form>
                 </div>
                 <!-- /.box-header -->
                 <div style="display: block;" class="box-body">
@@ -209,6 +223,61 @@
             <!-- /.box -->
         </div>
     </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Relatorio de Faltas</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="table" class="table table-bordered table-striped" class="display"
+                           cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Classe</th>
+                            {% for aula in aulas %}
+                                <th>{{ aula.data|date:"d/m/Y" }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if classe %}
+                            {% for aluno in classe.alunos.all %}
+                                <tr>
+                                    <td>{{ aluno.pessoa.nome }}</td>
+                                    <td>{{ classe.nome }}</td>
+                                    {% for aula in aulas %}
+                                        {% if aluno in aula.presentes.all %}
+                                            <td>P</td>
+                                        {% else %}
+                                            <td>F</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            {% for aluno in igreja.alunos.all %}
+                                <tr>
+                                    <td>{{ aluno.pessoa.nome }}</td>
+                                    <td>{{ aluno.classe_set.first.nome }}</td>
+                                    {% for aula in aulas %}
+                                        {% if aluno in aula.presentes.all %}
+                                            <td>P</td>
+                                        {% else %}
+                                            <td>F</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Main row -->
     <div class="row">
@@ -276,17 +345,142 @@
                     'qualquer lugar.',
                     backdrop: true,
                     orphan: true
+                },
+                {
+                    element: ".form-group:eq(0)",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Para ver os relatorios comece selecionando uma classe registrada.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(1)",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'E entao selecione uma data de inicio do filtro.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".form-group:eq(2)",
+                    placement: "bottom",
+                    backdrop: true,
+                    content: 'Ao selecionar uma data de fim, iremos filtrar ' +
+                    'neste intervalo de datas as aulas cadastradas.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                },
+                {
+                    element: ".box:eq(1)",
+                    placement: "top",
+                    backdrop: true,
+                    content: 'Apos de aplicar o filtro refazemos esta tabela e mostramos ' +
+                    'o relatorio de faltas dos alunos da classe selecionada.',
+                    onShown: function () {
+                    },
+                    onHidden: function () {
+                    }
+                }, {
+                    element: "#departamentos",
+                    placement: "top",
+                    content: 'Aqui voce pode cadastrar novos departamentos e lista todos eles.',
+                    onShown: function () {
+                        $('#departamentos').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#departamentos').removeClass('active');
+                    }
+                },
+                {
+                    element: "#classes",
+                    placement: "bottom",
+                    content: 'Este menu gerencia a criacao de novas classes atribuindo um professor ' +
+                    'e um departamento a elas.',
+                    onShown: function () {
+                        $('#classes').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#classes').removeClass('active');
+                    }
+                },
+                {
+                    element: "#alunos",
+                    placement: "bottom",
+                    content: 'Matricula novos alunos e analisa o perfil de cada um.',
+                    onShown: function () {
+                        $('#alunos').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#alunos').removeClass('active');
+                    }
+                },
+                {
+                    element: "#professores",
+                    placement: "bottom",
+                    content: 'Lista todos os professores associados a cada classe.',
+                    onShown: function () {
+                        $('#professores').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#professores').removeClass('active');
+                    }
+                },
+                {
+                    element: "#aulas",
+                    placement: "bottom",
+                    content: 'Cadastra as aulas dominicais, e mantem controle de faltas dos alunos.',
+                    onShown: function () {
+                        $('#aulas').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#aulas').removeClass('active');
+                    }
+                },
+                {
+                    element: "#diarios",
+                    placement: "top",
+                    content: 'Gera uma visualizacao de cada aula registrada.',
+                    onShown: function () {
+                        $('#diarios').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#diarios').removeClass('active');
+                    }
+                },
+                {
+                    element: "#ajuda",
+                    placement: "top",
+                    content: 'Clicando aqui voce consegue ter um tutorial da tela em contexto.',
+                    onShown: function () {
+                        $('#ajuda').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#ajuda').removeClass('active');
+                    }
+                },
+                {
+                    element: "#logout",
+                    placement: "top",
+                    content: 'Clique aqui quando desejar sair do sistema.',
+                    onShown: function () {
+                        $('#logout').addClass('active');
+                    },
+                    onHidden: function () {
+                        $('#logout').removeClass('active');
+                    }
                 }
             ];
             xinguTour(window.location.href, steps);
             if (parseInt({{ primeira_entrada }}) === 1) {
                 clearTour(window.location.href);
             }
-            console.log('{{ initData }}');
-            console.log('{{ endData }}');
-            console.log({{ arr_datas|safe }});
-            console.log({{ arr_faltosos|safe }});
-            console.log({{ arr_presentes|safe }});
             palunos = 0;
             ppresentes = 0;
             pfaltosos = 0;

@@ -308,6 +308,61 @@
 <script src="{% static "dist/js/chartReport.js" %}"></script>
 
 <script type="text/javascript">
+
+    var windows = {};
+    function openWindow(url, name, features) {
+        windows[name] = window.open(url, name, features);
+        return windows[name];
+    }
+
+    function id_to_windowname(text) {
+        var first = "first";
+        if (text === "") {
+            return first;
+        }
+        text = text.replace(/\./g, '__dot__');
+        text = text.replace(/\-/g, '__dash__');
+        return text;
+    }
+
+    function findWindow(name) {
+        return windows[name];
+    }
+
+    function closeWindow(name) {
+        var window = windows[name];
+        if (window) {
+            window.close();
+            delete windows[name];
+        }
+    }
+
+    function refreshWindow(name) {
+        var window = windows[name];
+        if (window) {
+            window.focus();
+            window.location.reload();
+        }
+    }
+
+    function disableF5(e) {
+        if ((e.which || e.keyCode) == 116) e.preventDefault();
+    }
+
+
+    function popitup(url) {
+        var name = window.location.href;
+        var newwindow = openWindow(url, name, 'height=600,width=600,resizable=yes,scrollbars=yes');
+        newwindow.focus();
+        newwindow.addEventListener("keydown", disableF5);
+        newwindow.addEventListener('submit', function () {
+            setTimeout(function () {
+                window.location.reload();
+                closeWindow(name);
+            }, 3500);
+        }, false);
+        return false;
+    }
     $(document).ready(function () {
         $('#table').DataTable({});
         $('.datepicker').datepicker({
@@ -363,6 +418,22 @@
             var dtNascimento = moment($(this).val(), "DD/MM/YYYY");
             idade = now.diff(dtNascimento, 'years');
             $('[name=idade]').val(idade);
+        });
+
+        $('.addplus').click(function () {
+            var link = $(this).data('link');
+            {#            swal({#}
+            {#                title: "Adicionar",#}
+            {#                text: "Cadastrar novo item?",#}
+            {#                showCancelButton: true,#}
+            {#                type: "warning",#}
+            {#                confirmButtonColor: "#55dd6c",#}
+            {#                confirmButtonText: "Sim!",#}
+            {#                closeOnConfirm: true#}
+            {#            }, function () {#}
+            {#                popitup(link);#}
+            {#            });#}
+            popitup(link);
         });
 
         $('.lixo').mouseenter(function () {

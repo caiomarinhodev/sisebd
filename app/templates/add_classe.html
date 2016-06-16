@@ -17,21 +17,37 @@
                         </div>
                         <div class="form-group">
                             <label>Departamento responsavel:</label>
-                            <select class="form-control " id="id_depto" name="id_depto" required>
-                                <option value=""></option>
-                                {% for depto in igreja.departamentos.all %}
-                                    <option value="{{ depto.id }}">{{ depto.descricao }}</option>
-                                {% endfor %}
-                            </select>
+
+                            <div class="input-group">
+                                <select class="form-control " id="id_depto" name="id_depto" required>
+                                    <option value=""></option>
+                                    {% for depto in igreja.departamentos.all %}
+                                        <option value="{{ depto.id }}">{{ depto.descricao }}</option>
+                                    {% endfor %}
+                                </select>
+                                 <span class="input-group-btn">
+                                        <a data-link="/add-depto" target="_blank" class="btn btn-default addplus"><i
+                                                class="fa fa-plus"></i>
+                                        </a>
+                                 </span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Professor da classe:</label>
-                            <select class="form-control " id="id_professor" name="id_professor" required>
-                                <option value=""></option>
-                                {% for professor in igreja.professores.all %}
-                                    <option value="{{ professor.id }}">{{ professor.pessoa.nome }}</option>
-                                {% endfor %}
-                            </select>
+
+                            <div class="input-group">
+                                <select class="form-control " id="id_professor" name="id_professor" required>
+                                    <option value=""></option>
+                                    {% for professor in igreja.professores.all %}
+                                        <option value="{{ professor.id }}">{{ professor.pessoa.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="input-group-btn">
+                                        <a data-link="/add-professor" target="_blank" class="btn btn-default addplus" ><i
+                                                class="fa fa-plus"></i>
+                                        </a>
+                                 </span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Idade maxima:</label>

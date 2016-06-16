@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db.models import Q
 
-from app.models import Igreja
+from app.models import Igreja, Classe
 
 
 def get_filter_relatorio(request):
@@ -18,28 +18,22 @@ def get_filter_relatorio(request):
     arr_datas = []
     initData = request.GET['init_data']
     endData = request.GET['end_data']
-    aulas = igreja.aulas.filter(
-        Q(data__gt=decrement_day(get_data_formated(initData)),
-          data__lt=increment_day(get_data_formated(endData)))
-    )
     try:
+        classe = Classe.objects.get(id=request.GET['id_classe'])
+        aulas = classe.aulas.filter(
+            Q(data__gt=decrement_day(get_data_formated(initData)),
+              data__lt=increment_day(get_data_formated(endData)))
+        )
         for aula in aulas:
             visitantes += int(aula.visitantes)
             tpresentes += len(aula.presentes.all())
             tfaltosos += len(aula.faltosos.all())
-            arr_datas.append(aula.data.strftime('%d-%m-%Y'))
+            arr_datas.append(aula.data.strftime('%d/%m'))
             arr_presentes.append(len(aula.presentes.all()))
             arr_faltosos.append(len(aula.faltosos.all()))
-        presentes = float(float(tpresentes) / float(len(igreja.alunos.all()))) / len(aulas)
+        presentes = float(float(tpresentes) / float(len(classe.alunos.all()))) / len(aulas)
         faltosos = (1 - presentes) * 100
     except ZeroDivisionError:
-        for aula in igreja.aulas.all():
-            visitantes += int(aula.visitantes)
-            tpresentes += len(aula.presentes.all())
-            tfaltosos += len(aula.faltosos.all())
-            arr_datas.append(aula.data.strftime('%d-%m-%Y'))
-            arr_presentes.append(len(aula.presentes.all()))
-            arr_faltosos.append(len(aula.faltosos.all()))
         presentes = 0
         faltosos = 0
         messages.error(request, 'Nao foi possivel encontrar aulas registradas neste intervalo de datas.')
@@ -58,7 +52,9 @@ def get_filter_relatorio(request):
                                              'endData': endData,
                                              'arr_datas': arr_datas,
                                              'arr_presentes': arr_presentes,
-                                             'arr_faltosos': arr_faltosos},
+                                             'arr_faltosos': arr_faltosos,
+                                             'aulas': aulas,
+                                             'classe': classe},
                               context_instance=RequestContext(request))
 
 
@@ -73,41 +69,12 @@ def get_relatorios(request):
     visitantes = 0
     presentes = 0
     faltosos = 0
-    tpresentes = 0
-    tfaltosos = 0
     arr_datas = []
     arr_presentes = []
     arr_faltosos = []
-    try:
-        initData = igreja.aulas.first().data.strftime('%d-%m-%Y')
-        endData = datetime.datetime.now().strftime('%d-%m-%Y')
-    except AttributeError:
-        initData = ''
-        endData = ''
-    try:
-        for aula in igreja.aulas.all():
-            visitantes += int(aula.visitantes)
-            tpresentes += len(aula.presentes.all())
-            tfaltosos += len(aula.faltosos.all())
-            arr_datas.append(aula.data.strftime('%d-%m-%Y'))
-            arr_presentes.append(len(aula.presentes.all()))
-            arr_faltosos.append(len(aula.faltosos.all()))
-        presentes = float(float(tpresentes) / float(len(igreja.alunos.all()))) / len(igreja.aulas.all())
-        faltosos = (1 - presentes) * 100
-    except ZeroDivisionError:
-        for aula in igreja.aulas.all():
-            visitantes += int(aula.visitantes)
-            tpresentes += len(aula.presentes.all())
-            tfaltosos += len(aula.faltosos.all())
-            arr_datas.append(aula.data.strftime('%d-%m-%Y'))
-            arr_presentes.append(len(aula.presentes.all()))
-            arr_faltosos.append(len(aula.faltosos.all()))
-        presentes = 0
-        faltosos = 0
-    if len(arr_datas) > 8:
-        arr_datas = arr_datas[-1:-8]
-        arr_faltosos = arr_faltosos[-1:-8]
-        arr_presentes = arr_presentes[-1:-8]
+    classe = None
+    initData = ''
+    endData = ''
     dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
              len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
     return render_to_response('index.html', {'igreja': igreja,
@@ -120,7 +87,8 @@ def get_relatorios(request):
                                              'arr_datas': arr_datas,
                                              'arr_presentes': arr_presentes,
                                              'primeira_entrada': primeira_entrada,
-                                             'arr_faltosos': arr_faltosos},
+                                             'arr_faltosos': arr_faltosos,
+                                             'classe': classe},
                               context_instance=RequestContext(request))
 
 

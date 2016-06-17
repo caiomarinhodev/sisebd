@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href='{% static 'bootstrap/css/bootstrap.min.css' %}'>
+</head>
+<body>
+<div class="wrap">
+    <div class="row">
+        <table id="table" class="table table-bordered table-striped" class="display"
+               cellspacing="0" width="100%">
+            <thead>
+            {% if type == 'alunos' %}
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Classe</th>
+                    <th>Genero</th>
+                    <th>Idade</th>
+                    <th>Criado em</th>
+                    <td>Alterado em</td>
+                </tr>
+            {% elif type == 'professores' %}
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Departamento</th>
+                    <th>Classe</th>
+                    <th>Criado em</th>
+                    <td>Alterado em</td>
+                </tr>
+            {% elif type == 'aulas' %}
+                <tr>
+                    <th>ID</th>
+                    <th>Classe</th>
+                    <th>Data</th>
+                    <th>Criado em</th>
+                </tr>
+            {% elif type == 'departamentos' %}
+                <tr>
+                    <th>ID</th>
+                    <th>Descricao</th>
+                    <th>Classes</th>
+                    <th>Professores</th>
+                    <th>Criado em</th>
+                    <td>Alterado em</td>
+                </tr>
+            {% elif type == 'classes' %}
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Professor</th>
+                    <th>Alunos</th>
+                    <th>Criado em</th>
+                    <td>Alterado em</td>
+                </tr>
+            {% elif type == 'diarios' %}
+                <tr>
+                    <th>ID</th>
+                    <th>Classe</th>
+                    <th>Data</th>
+                    <th>Presentes</th>
+                    <th>Faltosos</th>
+                    <th>Criado em</th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            {% endif %}
+            </thead>
+            <tbody>
+            {% if type == 'alunos' %}
+                {% for aluno in igreja.alunos.all %}
+                    <tr>
+                        <td>{{ aluno.pessoa.id }}</td>
+                        <td>
+                            {{ aluno.pessoa.nome }}
+                        </td>
+                        <td>
+                            {% for classe in aluno.classe_set.all %}
+                                {{ classe.nome }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ aluno.pessoa.sexo }}</td>
+                        <td>{{ aluno.pessoa.idade }}</td>
+                        <td>{{ aluno.pessoa.created_at|date:"d/m/Y G:i" }}</td>
+                        <td>{{ aluno.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% elif type == 'professores' %}
+                {% for prof in igreja.professores.all %}
+                    <tr>
+                        <td>{{ prof.pessoa.id }}</td>
+                        <td>{{ prof.pessoa.nome }}</td>
+                        <td>{{ prof.departamento_set.first.descricao }}</td>
+                        <td>
+                            {% for classe in prof.classe_set.all %}
+                                {{ classe.nome }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ prof.pessoa.created_at|date:"d/m/Y G:i" }}</td>
+                        <td>{{ prof.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% elif type == 'aulas' %}
+                {% for aula in igreja.aulas.all %}
+                    <tr>
+                        <td>{{ aula.id }}</td>
+                        <td>
+                            {% for classe in aula.classe_set.all %}
+                                {{ classe.nome }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ aula.data|date:"d/m/Y" }}</td>
+                        <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% elif type == 'departamentos' %}
+                {% for depto in igreja.departamentos.all %}
+                    <tr>
+                        <td>{{ depto.id }}</td>
+                        <td>{{ depto.descricao }}</td>
+                        <td>{{ depto.classes.all|length }}</td>
+                        <td>{{ depto.professores.all|length }}</td>
+                        <td>{{ depto.created_at|date:"d/m/Y G:i" }}</td>
+                        <td>{{ depto.updated_at|date:"d/m/Y G:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% elif type == 'classes' %}
+                {% for classe in igreja.classes.all %}
+                    <tr>
+                        <td>{{ classe.id }}</td>
+                        <td>{{ classe.nome }}</td>
+                        <td>{{ classe.professor.pessoa.nome }}</td>
+                        <td>{{ classe.alunos.all|length }}</td>
+                        <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
+                        <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% elif type == 'diarios' %}
+                {% for aula in igreja.aulas.all %}
+                    <tr>
+                        <td>{{ aula.id }}</td>
+                        <td>
+                            {% for classe in aula.classe_set.all %}
+                                {{ classe.nome }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ aula.data|date:"d/m/Y" }}</td>
+                        <td>{{ aula.presentes.all|length }}</td>
+                        <td>{{ aula.faltosos.all|length }}</td>
+                        <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Bootstrap 3.3.5 -->
+<script src='{% static 'bootstrap/js/bootstrap.min.js' %}'></script>
+<script>
+    window.onload = function () {
+        window.print();
+    }
+
+</script>
+</body>
+</html>

@@ -92,6 +92,39 @@ def get_relatorios(request):
                               context_instance=RequestContext(request))
 
 
+def imprimir_lista(request):
+    data = request.GET
+    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    if data['q'] == 'alunos':
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'alunos'},
+                                  context_instance=RequestContext(request))
+    elif data['q'] == 'professores':
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'professores'},
+                                  context_instance=RequestContext(request))
+    elif data['q'] == 'departamentos':
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'departamentos'},
+                                  context_instance=RequestContext(request))
+    elif data['q'] == 'aulas':
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'aulas'},
+                                  context_instance=RequestContext(request))
+    elif data['q'] == 'diarios':
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'diarios'},
+                                  context_instance=RequestContext(request))
+    elif data['q'] == 'classes':
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'classes'},
+                                  context_instance=RequestContext(request))
+    else:
+        return render_to_response('imprimir.html', {'igreja': igreja,
+                                                    'type': 'alunos'},
+                                  context_instance=RequestContext(request))
+
+
 def get_data_formated(data):
     # replace = data.replace('/', '-')
     date = datetime.datetime.strptime(data, '%d/%m/%Y')

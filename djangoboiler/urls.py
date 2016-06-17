@@ -63,4 +63,5 @@ urlpatterns = [
     url(r'^diarios/', views.DiarioView.list_diarios, name='diarios'),
     url(r'^view-diario/(?P<id>\d+)', views.DiarioView.view_diario, name='view-diario'),
     url(r'^filter-relatorio', views.RelatorioView.get_filter_relatorio, name='filter-relatorio'),
+    url(r'^imprimir', views.RelatorioView.imprimir_lista, name='imprimir'),
 ]

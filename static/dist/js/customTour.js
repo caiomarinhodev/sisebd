@@ -26,8 +26,12 @@ function xinguTour(name, array) {
 }
 
 function makeName(name) {
-    return name.replace(/\//g, '_').replace(/:/g, '_');
+    return name.replace(/\//g, '_').replace(/:/g, '_')
+        .replace(/\./g, '__dot__').replace(/\-/g, '__dash__')
+        .replace(/[?]/g, '_int_').replace(/[%]/g, '_per_')
+        .replace(/[=]/g, '').replace(/[&]/g, '');
 }
+
 
 // Esta funcao limpa a tour da tela desejada.
 function clearTour(name) {

@@ -226,6 +226,8 @@
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Relatorio de Faltas</h3>
+            <a class="btn btn-default pull-right print-list" onclick="imprimir_page();"><i class="fa fa-print"></i>
+                Imprimir</a>
         </div>
         <div class="box-body">
             <div class="row">
@@ -280,62 +282,66 @@
 
 
     <!-- Main row -->
-    <div class="row">
-        <!-- Left col -->
-        <div class="col-md-8">
-        </div>
-        <!-- /.col -->
-
-        <div class="col-md-4">
-            <div class="box box-widget widget-user">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-aqua-active">
-                    <h3 class="widget-user-username">{{ igreja.nome_responsavel }}</h3>
-                    <h5 class="widget-user-desc">Usuario Adm</h5>
-                </div>
-                <div class="widget-user-image">
-                    {% if igreja.foto %}
-                        <img class="img-circle" src="{{ igreja.foto }}" alt="{{ igreja.nome_responsavel }}">
-                    {% else %}
-                        <img class="img-circle" src="http://lorempixel.com/128/128/"
-                             alt="{{ igreja.nome_responsavel }}">
-                    {% endif %}
-
-                </div>
-                <div class="box-footer">
-                    <div class="row">
-                        <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                                <h5 class="description-header">{{ igreja.id }}</h5>
-                                <span class="description-text">ID</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                                <h5 class="description-header">{{ igreja.qtd_membros }}</h5>
-                                <span class="description-text">MEMBROS</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-4">
-                            <div class="description-block">
-                                <h5 class="description-header">{{ igreja.updated_at|date:"d/m/Y H:m" }}</h5>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-            </div>
-            <!-- Info Boxes Style 2 -->
-        </div>
-        <!-- /.col -->
-    </div>
+{#    <div class="row">#}
+{#        <!-- Left col -->#}
+{#        <div class="col-md-8">#}
+{#        </div>#}
+{#        <!-- /.col -->#}
+{##}
+{#        <div class="col-md-4">#}
+{#            <div class="box box-widget widget-user">#}
+{#                <!-- Add the bg color to the header using any of the bg-* classes -->#}
+{#                <div class="widget-user-header bg-aqua-active">#}
+{#                    <h3 class="widget-user-username">{{ igreja.nome_responsavel }}</h3>#}
+{#                    <h5 class="widget-user-desc">Usuario Adm</h5>#}
+{#                </div>#}
+{#                <div class="widget-user-image">#}
+{#                    {% if igreja.foto %}#}
+{#                        <img class="img-circle" src="{{ igreja.foto }}" alt="{{ igreja.nome_responsavel }}">#}
+{#                    {% else %}#}
+{#                        <img class="img-circle" src="http://lorempixel.com/128/128/"#}
+{#                             alt="{{ igreja.nome_responsavel }}">#}
+{#                    {% endif %}#}
+{##}
+{#                </div>#}
+{#                <div class="box-footer">#}
+{#                    <div class="row">#}
+{#                        <div class="col-sm-4 border-right">#}
+{#                            <div class="description-block">#}
+{#                                <h5 class="description-header">{{ igreja.id }}</h5>#}
+{#                                <span class="description-text">ID</span>#}
+{#                            </div>#}
+{#                            <!-- /.description-block -->#}
+{#                        </div>#}
+{#                        <!-- /.col -->#}
+{#                        <div class="col-sm-4 border-right">#}
+{#                            <div class="description-block">#}
+{#                                <h5 class="description-header">{{ igreja.qtd_membros }}</h5>#}
+{#                                <span class="description-text">MEMBROS</span>#}
+{#                            </div>#}
+{#                            <!-- /.description-block -->#}
+{#                        </div>#}
+{#                        <!-- /.col -->#}
+{#                        <div class="col-sm-4">#}
+{#                            <div class="description-block">#}
+{#                                <h5 class="description-header">{{ igreja.updated_at|date:"d/m/Y H:m" }}</h5>#}
+{#                            </div>#}
+{#                            <!-- /.description-block -->#}
+{#                        </div>#}
+{#                        <!-- /.col -->#}
+{#                    </div>#}
+{#                    <!-- /.row -->#}
+{#                </div>#}
+{#            </div>#}
+{#            <!-- Info Boxes Style 2 -->#}
+{#        </div>#}
+{#        <!-- /.col -->#}
+{#    </div>#}
     <script type="text/javascript">
+        function imprimir_page() {
+            $('.sidebar-toggle').trigger('click');
+            window.print();
+        }
         $(document).ready(function () {
             var steps = [
                 {

@@ -1,13 +1,24 @@
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
-from app.models import Igreja, Departamento
+from app.models import Igreja, Departamento, Pessoa
 from django.contrib import messages
 
 
 def list_departamentos(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    return render_to_response('departamentos.html', {'igreja': igreja},
+    igreja=None
+    aluno=None
+    professor=None
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    elif categoria == 2:
+        aluno = Pessoa.objects.get(email=request.session['email']).aluno_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    return render_to_response('departamentos.html', {'igreja': igreja,
+                                                     'aluno': aluno,
+                                                     'professor': professor},
                               context_instance=RequestContext(request))
 
 

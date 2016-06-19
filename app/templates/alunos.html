@@ -4,10 +4,16 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a class="btn btn-default pull-left print-list" href="/imprimir?q=alunos" target="_blank"><i
-                            class="fa fa-print"></i>
-                        Imprimir</a>
-                    <a href="/add-aluno" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Matricular Aluno</a>
+                    {% if igreja %}
+                        <a class="btn btn-default pull-left print-list" href="/imprimir?q=alunos" target="_blank"><i
+                                class="fa fa-print"></i>
+                            Imprimir</a>
+                        <a href="/add-aluno" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Matricular
+                            Aluno</a>
+                    {% elif professor %}
+                        <a href="/add-aluno" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Matricular
+                            Aluno</a>
+                    {% endif %}
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -26,46 +32,103 @@
                                         <th>Idade</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        {% if igreja or professor %}
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for aluno in igreja.alunos.all %}
-                                        <tr>
-                                            <td>{{ aluno.pessoa.id }}</td>
-                                            <td>
-                                                <a href="/view-aluno/{{ aluno.pessoa.id }}">
+                                    {% if igreja %}
+                                        {% for aluno in igreja.alunos.all %}
+                                            <tr>
+                                                <td>{{ aluno.pessoa.id }}</td>
+                                                <td>
+                                                    <a href="/view-aluno/{{ aluno.pessoa.id }}">
+                                                        {{ aluno.pessoa.nome }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {% for classe in aluno.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aluno.pessoa.sexo }}</td>
+                                                <td>{{ aluno.pessoa.idade }}</td>
+                                                <td>{{ aluno.pessoa.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ aluno.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a href="/edit-aluno/{{ aluno.pessoa.id }}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="/view-aluno/{{ aluno.pessoa.id }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="remover" data-link="/remove-aluno/{{ aluno.id }}">
+                                                        <i class="lixo fa fa-trash-o"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% elif professor %}
+                                        {% for aluno in professor.igreja_set.first.alunos.all %}
+                                            <tr>
+                                                <td>{{ aluno.pessoa.id }}</td>
+                                                <td>
+                                                    <a href="/view-aluno/{{ aluno.pessoa.id }}">
+                                                        {{ aluno.pessoa.nome }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {% for classe in aluno.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aluno.pessoa.sexo }}</td>
+                                                <td>{{ aluno.pessoa.idade }}</td>
+                                                <td>{{ aluno.pessoa.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ aluno.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a href="/edit-aluno/{{ aluno.pessoa.id }}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="/view-aluno/{{ aluno.pessoa.id }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="remover" data-link="/remove-aluno/{{ aluno.id }}">
+                                                        <i class="lixo fa fa-trash-o"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for aluno in aluno.igreja_set.first.alunos.all %}
+                                            <tr>
+                                                <td>{{ aluno.pessoa.id }}</td>
+                                                <td>
                                                     {{ aluno.pessoa.nome }}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                {% for classe in aluno.classe_set.all %}
-                                                    {{ classe.nome }}
-                                                {% endfor %}
-                                            </td>
-                                            <td>{{ aluno.pessoa.sexo }}</td>
-                                            <td>{{ aluno.pessoa.idade }}</td>
-                                            <td>{{ aluno.pessoa.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td>{{ aluno.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
-                                            <td class="text-center">
-                                                <a href="/edit-aluno/{{ aluno.pessoa.id }}">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="/view-aluno/{{ aluno.pessoa.id }}">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a class="remover" data-link="/remove-aluno/{{ aluno.id }}">
-                                                    <i class="lixo fa fa-trash-o"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                                </td>
+                                                <td>
+                                                    {% for classe in aluno.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aluno.pessoa.sexo }}</td>
+                                                <td>{{ aluno.pessoa.idade }}</td>
+                                                <td>{{ aluno.pessoa.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ aluno.pessoa.updated_at|date:"d/m/Y G:i" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

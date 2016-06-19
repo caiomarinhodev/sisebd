@@ -1,4 +1,5 @@
 import json
+from django.contrib import messages
 
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
@@ -48,21 +49,30 @@ def get_register(request):
 # Gerencia quem esta logando para onde vai!
 def loga(request, categoria):
     if int(categoria) == 1:
-        try:
-            return render_to_response('confirm_pessoa.html', {'igrejas': Igreja.objects.all()},
-                                      context_instance=RequestContext(request))
-        except Pessoa.DoesNotExist:
-            # TODO: Nao redirecionar, e sim lancar mensagem de erro.
-            return redirect('/login')
+        if 'logado' in request.session:
+            if int(request.session['logado']) == 1:
+                return RelatorioView.get_relatorios(request)
+        else:
+            try:
+                return render_to_response('confirm_pessoa.html', {'igrejas': Igreja.objects.all()},
+                                          context_instance=RequestContext(request))
+            except:
+                request.session.clear()
+                messages.error(request, 'Usuario nao existe.')
+                return redirect('/login')
     elif int(categoria) == 2:
-        try:
-            return render_to_response('confirm_pessoa.html', {'igrejas': Igreja.objects.all()},
-                                      context_instance=RequestContext(request))
-        except:
-            # TODO: Nao redirecionar, e sim lancar mensagem de erro.
-            return redirect('/login')
+        if 'logado' in request.session:
+            if int(request.session['logado']) == 1:
+                return RelatorioView.get_relatorios(request)
+        else:
+            try:
+                return render_to_response('confirm_pessoa.html', {'igrejas': Igreja.objects.all()},
+                                          context_instance=RequestContext(request))
+            except:
+                request.session.clear()
+                messages.error(request, 'Usuario nao existe.')
+                return redirect('/login')
     else:
-        igreja = None
         try:
             return RelatorioView.get_relatorios(request)
         except Igreja.DoesNotExist:
@@ -121,27 +131,48 @@ def confirma_pessoa(request):
     email = request.session['email']
     try:
         pessoa = Pessoa.objects.get(email=email)
+        pessoa.nome = request.session['nome']
+        pessoa.save()
     except Pessoa.DoesNotExist:
-        # TODO: tratar com mensagem de erro
-        redirect('/login')
+        request.session.clear()
+        messages.error(request, 'Usuario nao cadastrado.')
+        return redirect('/login')
+    except Pessoa.MultipleObjectsReturned:
+        request.session.clear()
+        messages.error(request, 'Usuario nao cadastrado.')
+        return redirect('/login')
     if categoria == 1:
-        try:
-            professor = Professor.objects.get(pessoa=pessoa.id)
-            # TODO: tratar para entrada com sucesso - feature
-        except Professor.DoesNotExist:
-            # TODO: tratar com mensagem de erro
-            redirect('/login')
+        professor = pessoa.professor_set.first()
+        professor.foto = request.session['foto']
+        professor.save()
+        if professor.habilitado and int(professor.igreja_set.first().id) == int(data['id_igreja']):
+            try:
+                request.session['logado'] = 1
+                return RelatorioView.get_relatorios(request)
+            except:
+                request.session.clear()
+                messages.error(request, 'Nao foi possivel renderizar o sistema.')
+                return redirect('/login')
+        else:
+            messages.error(request, 'Este usuario nao esta habilitado a acessar o sistema.')
+            return redirect('/login')
     else:
-        try:
-            aluno = Aluno.objects.get(pessoa=pessoa.id)
-            # TODO: tratar para entrada com sucesso - feature
-        except Aluno.DoesNotExist:
-            # TODO: tratar com mensagem de erro
-            redirect('/login')
+        aluno = pessoa.aluno_set.first()
+        aluno.foto = request.session['foto']
+        aluno.save()
+        if aluno.habilitado and int(aluno.igreja_set.first().id) == int(data['id_igreja']):
+            try:
+                request.session['logado'] = 1
+                return RelatorioView.get_relatorios(request)
+            except Aluno.DoesNotExist:
+                request.session.clear()
+                messages.error(request, 'Nao foi possivel renderizar o sistema..')
+                return redirect('/login')
+        else:
+            messages.error(request, 'Este usuario nao esta habilitado a acessar o sistema.')
+            return redirect('/login')
 
 
 def logout(request):
     request.session.clear()
     return redirect('/login')
-
-

@@ -27,12 +27,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Classe:</label>
-                                    <select class="form-control " id="id_classe" name="id_classe" required>
-                                        <option value=""></option>
-                                        {% for classe in igreja.classes.all %}
-                                            <option value="{{ classe.id }}">{{ classe.nome }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {% if igreja %}
+                                        <select class="form-control " id="id_classe" name="id_classe" required>
+                                            <option value=""></option>
+                                            {% for classe in igreja.classes.all %}
+                                                <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% elif professor %}
+                                        <select class="form-control " id="id_classe" name="id_classe" disabled>
+                                            <option value=""></option>
+                                            {% for classe in professor.igreja_set.first.classes.all %}
+                                                <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %}
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Nome do pai:</label>
@@ -58,6 +67,16 @@
                                     <label for="nome">Email:</label>
                                     <input class="form-control " id="email"
                                            type="email" name="email" value="{{ pessoa.email }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="habilitado">Habilitado:</label>
+                                    {% if pessoa.aluno_set.first.habilitado %}
+                                        <input id="habilitado"
+                                               type="checkbox" name="habilitado" checked>
+                                    {% else %}
+                                        <input id="habilitado"
+                                               type="checkbox" name="habilitado">
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6">

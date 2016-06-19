@@ -26,6 +26,8 @@ import app.views.ProfessorView
 import app.views.AulaView
 import app.views.DiarioView
 import app.views.RelatorioView
+import app.views.MaterialView
+import app.views.ConfiguracoesView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -34,6 +36,7 @@ urlpatterns = [
     url(r'^login', views.LoginView.get_login, name='login'),
     url(r'^callback', views.LoginView.callback_handling, name='callback'),
     url(r'^who', views.LoginView.get_who, name='who'),
+    url(r'^confirma-pessoa', views.LoginView.confirma_pessoa, name='confirma-pessoa'),
     url(r'^register', views.LoginView.get_register, name='register'),
     url(r'^logout', views.LoginView.logout, name='logout'),
     url(r'^add-depto', views.DepartamentoView.add_departamento, name='add-depto'),
@@ -64,4 +67,10 @@ urlpatterns = [
     url(r'^view-diario/(?P<id>\d+)', views.DiarioView.view_diario, name='view-diario'),
     url(r'^filter-relatorio', views.RelatorioView.get_filter_relatorio, name='filter-relatorio'),
     url(r'^imprimir', views.RelatorioView.imprimir_lista, name='imprimir'),
+    url(r'^add-material', views.MaterialView.add_material, name='add-material'),
+    url(r'^materiais/', views.MaterialView.list_materiais, name='materiais'),
+    url(r'^remove-material/(?P<id>\d+)', views.MaterialView.remove_material, name='remove-material'),
+    url(r'^config', views.ConfiguracoesView.get_configuracoes, name='config'),
+    url(r'^edit-config', views.ConfiguracoesView.edit_configuracoes, name='edit-config'),
+
 ]

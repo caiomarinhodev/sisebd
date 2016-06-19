@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="{{ igreja.foto }}"
+                         alt="User profile picture">
+
+                    <h3 class="profile-username text-center">{{ igreja.nome_igreja }}</h3>
+
+                    <p class="text-muted text-center">{{ igreja.created_at|date:"d/m/Y" }}</p>
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Alunos</b> <a class="pull-right">{{ igreja.alunos.all|length }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>ID</b> <a class="pull-right">{{ igreja.id }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Plano</b> <a class="pull-right">{{ igreja.plano }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Informacoes</h3>
+                </div>
+                <!-- /.box-header -->
+                <form class="form-horizontal" method="post" action="/edit-config" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Nome:</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="nome_igreja" placeholder="Name" type="text"
+                                       name="nome_igreja" value="{{ igreja.nome_igreja }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Responsavel:</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="nome_responsavel" placeholder="Name" type="text"
+                                       name="nome_responsavel" value="{{ igreja.nome_responsavel }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-sm-2 control-label">Email:</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="email" name="email" type="email"
+                                       value="{{ igreja.email_responsavel }}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Telefone:</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control telefone" id="telefone" name="telefone"
+                                       type="text" value="{{ igreja.telefone }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Membros:</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="qtd_membros" name="qtd_membros"
+                                       type="number" min="0" value="{{ igreja.qtd_membros }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Imagem:</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="imagem" name="imagem" type="file"
+                                       value="{{ igreja.foto }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Plano</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="plano" name="plano" type="text"
+                                       value="{{ igreja.plano }}" readonly>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="box-footer">
+                        <div class="pull-left">
+                            <a href="/" class="btn btn-default">Voltar</a>
+                        </div>
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-danger">Alterar</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- form start -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var steps = [];
+            xinguTour(window.location.href, steps);
+        });
+    </script>
+    <!-- /.row -->
+{% endblock %}

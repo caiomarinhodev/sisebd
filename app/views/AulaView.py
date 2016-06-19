@@ -4,21 +4,39 @@ from django.contrib import messages
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
-from app.models import Igreja, Classe, Aluno, Aula
+from app.models import Igreja, Classe, Aluno, Aula, Pessoa
 
 
 def list_aulas(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    return render_to_response('aulas.html', {'igreja': igreja},
+    igreja=None
+    aluno=None
+    professor=None
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    elif categoria == 2:
+        aluno = Pessoa.objects.get(email=request.session['email']).aluno_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    return render_to_response('aulas.html', {'igreja': igreja,
+                                             'aluno': aluno,
+                                             'professor': professor},
                               context_instance=RequestContext(request))
 
 
 def get_add_aula(request):
     data = request.POST
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    igreja=None
+    professor=None
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
     try:
         classe = Classe.objects.get(id=data['id_classe'])
         return render_to_response('add_aula.html', {'igreja': igreja,
+                                                    'professor': professor,
                                                     'classe': classe},
                                   context_instance=RequestContext(request))
     except:
@@ -28,7 +46,9 @@ def get_add_aula(request):
 def post_add_aula(request, id):
     data = request.POST
     classe = Classe.objects.get(id=id)
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    igreja=None
+    professor=None
+    categoria = int(request.session['categoria'])
     try:
         presentes_arr = data.getlist('presentes')
         new_aula = Aula(data=get_data_formated(data['data']),
@@ -45,8 +65,15 @@ def post_add_aula(request, id):
         new_aula.save()
         classe.aulas.add(new_aula)
         classe.save()
-        igreja.aulas.add(new_aula)
-        igreja.save()
+        if categoria == 1:
+            professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+            igreja = professor.igreja_set.first()
+            igreja.aulas.add(new_aula)
+            igreja.save()
+        else:
+            igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+            igreja.aulas.add(new_aula)
+            igreja.save()
         messages.success(request, 'Aula criada com sucesso.')
         return redirect('/aulas')
     except:
@@ -55,10 +82,17 @@ def post_add_aula(request, id):
 
 
 def remove_aula(request, id):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    igreja=None
+    professor=None
+    categoria = int(request.session['categoria'])
     try:
         aula = Aula.objects.get(id=id)
-        igreja.aulas.remove(aula)
+        if categoria == 1:
+            professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+            professor.igreja_set.first().aulas.remove(aula)
+        else:
+            igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+            igreja.aulas.remove(aula)
         try:
             classe = Classe.objects.get(id=aula.classe_set.first().id)
             classe.aulas.remove(aula)

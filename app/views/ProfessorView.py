@@ -8,8 +8,19 @@ from app.models import Igreja, Classe, Pessoa, Professor, Departamento
 
 
 def list_professores(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    return render_to_response('professores.html', {'igreja': igreja},
+    igreja=None
+    aluno=None
+    professor=None
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    elif categoria == 2:
+        aluno = Pessoa.objects.get(email=request.session['email']).aluno_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    return render_to_response('professores.html', {'igreja': igreja,
+                                                   'aluno': aluno,
+                                                   'professor': professor},
                               context_instance=RequestContext(request))
 
 
@@ -34,6 +45,8 @@ def add_professor(request):
             new_pessoa.save()
             new_professor = Professor(pessoa=new_pessoa)
             new_professor.foto = 'http://lorempixel.com/128/128/'
+            if 'habilitado' in data:
+                new_professor.habilitado = True
             new_professor.save()
             depto = Departamento.objects.get(id=data['id_depto'])
             depto.professores.add(new_professor)
@@ -74,12 +87,12 @@ def edit_professor(request, id):
             pessoa.cep = data['cep']
             pessoa.estado = data['estado']
             pessoa.save()
-            deptoAntigo = pessoa.professor_set.first().departamento_set.first()
-            deptoAntigo.professores.remove(pessoa.professor_set.first())
-            deptoAntigo.save()
-            deptoNovo = Departamento.objects.get(id=data['id_depto'])
-            deptoNovo.professores.add(pessoa.professor_set.first())
-            deptoNovo.save()
+            professor = pessoa.professor_set.first()
+            if 'habilitado' in data:
+                professor.habilitado = True
+            else:
+                professor.habilitado = False
+            professor.save()
             messages.success(request, 'Professor editado com sucesso.')
             return redirect('/professores')
         except:

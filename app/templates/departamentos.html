@@ -4,12 +4,16 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a class="btn btn-default pull-left print-list" href="/imprimir?q=departamentos" target="_blank"><i
-                            class="fa fa-print"></i>
-                        Imprimir</a>
-                    <a id="add-depto" href="/add-depto" class="btn btn-primary pull-right"><i class="fa fa-plus"></i>
-                        Adicionar
-                        Departamento</a>
+                    {% if igreja %}
+                        <a class="btn btn-default pull-left print-list" href="/imprimir?q=departamentos"
+                           target="_blank"><i
+                                class="fa fa-print"></i>
+                            Imprimir</a>
+                        <a id="add-depto" href="/add-depto" class="btn btn-primary pull-right"><i
+                                class="fa fa-plus"></i>
+                            Adicionar
+                            Departamento</a>
+                    {% endif %}
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -27,37 +31,65 @@
                                         <th>Professores</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        {% if igreja %}
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for depto in igreja.departamentos.all %}
-                                        <tr>
-                                            <td>{{ depto.id }}</td>
-                                            <td>{{ depto.descricao }}</td>
-                                            <td>{{ depto.classes.all|length }}</td>
-                                            <td>{{ depto.professores.all|length }}</td>
-                                            <td>{{ depto.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td>{{ depto.updated_at|date:"d/m/Y G:i" }}</td>
-                                            <td class="text-center">
-                                                <a href="/edit-depto/{{ depto.id }}">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="/view-depto/{{ depto.id }}">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a class="remover" data-link="/remove-depto/{{ depto.id }}">
-                                                    <i class="lixo fa fa-trash-o"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                    {% if igreja %}
+                                        {% for depto in igreja.departamentos.all %}
+                                            <tr>
+                                                <td>{{ depto.id }}</td>
+                                                <td>{{ depto.descricao }}</td>
+                                                <td>{{ depto.classes.all|length }}</td>
+                                                <td>{{ depto.professores.all|length }}</td>
+                                                <td>{{ depto.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ depto.updated_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a href="/edit-depto/{{ depto.id }}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="/view-depto/{{ depto.id }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="remover" data-link="/remove-depto/{{ depto.id }}">
+                                                        <i class="lixo fa fa-trash-o"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% elif professor %}
+                                        {% for depto in professor.igreja_set.first.departamentos.all %}
+                                            <tr>
+                                                <td>{{ depto.id }}</td>
+                                                <td>{{ depto.descricao }}</td>
+                                                <td>{{ depto.classes.all|length }}</td>
+                                                <td>{{ depto.professores.all|length }}</td>
+                                                <td>{{ depto.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ depto.updated_at|date:"d/m/Y G:i" }}</td>
+
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for depto in aluno.igreja_set.first.departamentos.all %}
+                                            <tr>
+                                                <td>{{ depto.id }}</td>
+                                                <td>{{ depto.descricao }}</td>
+                                                <td>{{ depto.classes.all|length }}</td>
+                                                <td>{{ depto.professores.all|length }}</td>
+                                                <td>{{ depto.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ depto.updated_at|date:"d/m/Y G:i" }}</td>
+
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

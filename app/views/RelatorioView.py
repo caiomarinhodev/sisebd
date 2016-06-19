@@ -5,11 +5,14 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db.models import Q
 
-from app.models import Igreja, Classe
+from app.models import Igreja, Classe, Pessoa
 
 
 def get_filter_relatorio(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    igreja=None
+    aluno=None
+    professor=None
+    categoria = int(request.session['categoria'])
     visitantes = 0
     tpresentes = 0
     tfaltosos = 0
@@ -41,9 +44,25 @@ def get_filter_relatorio(request):
         arr_datas = arr_datas[-1:-8]
         arr_faltosos = arr_faltosos[-1:-8]
         arr_presentes = arr_presentes[-1:-8]
-    dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
-             len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+        igreja = professor.igreja_set.first()
+        dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
+                 len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
+        igreja = None
+    elif categoria == 2:
+        aluno = Pessoa.objects.get(email=request.session['email']).aluno_set.first()
+        igreja = aluno.igreja_set.first()
+        dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
+                 len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
+        igreja = None
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+        dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
+                 len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
     return render_to_response('index.html', {'igreja': igreja,
+                                             'aluno': aluno,
+                                             'professor': professor,
                                              'presentes': round(presentes * 100, 1),
                                              'faltosos': round(faltosos, 1),
                                              'visitantes': visitantes,
@@ -59,13 +78,10 @@ def get_filter_relatorio(request):
 
 
 def get_relatorios(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    if igreja.primeira_entrada:
-        primeira_entrada = 1
-        igreja.primeira_entrada = False
-        igreja.save()
-    else:
-        primeira_entrada = 0
+    igreja=None
+    aluno=None
+    professor=None
+    categoria = int(request.session['categoria'])
     visitantes = 0
     presentes = 0
     faltosos = 0
@@ -75,9 +91,43 @@ def get_relatorios(request):
     classe = None
     initData = ''
     endData = ''
-    dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
-             len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+        igreja = professor.igreja_set.first()
+        dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
+                 len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
+        igreja = None
+        if professor.primeira_entrada:
+            primeira_entrada = 1
+            professor.primeira_entrada = False
+            professor.save()
+        else:
+            primeira_entrada = 0
+    elif categoria == 2:
+        aluno = Pessoa.objects.get(email=request.session['email']).aluno_set.first()
+        igreja = aluno.igreja_set.first()
+        dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
+                 len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
+        igreja = None
+        if aluno.primeira_entrada:
+            primeira_entrada = 1
+            aluno.primeira_entrada = False
+            aluno.save()
+        else:
+            primeira_entrada = 0
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+        if igreja.primeira_entrada:
+            primeira_entrada = 1
+            igreja.primeira_entrada = False
+            igreja.save()
+        else:
+            primeira_entrada = 0
+        dados = (len(igreja.aulas.all()) + len(igreja.classes.all()) + len(igreja.alunos.all()) + \
+                 len(igreja.departamentos.all()) + len(igreja.professores.all())) / 4
     return render_to_response('index.html', {'igreja': igreja,
+                                             'aluno': aluno,
+                                             'professor': professor,
                                              'presentes': round(presentes * 100, 1),
                                              'faltosos': round(faltosos, 1),
                                              'visitantes': visitantes,

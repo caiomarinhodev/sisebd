@@ -8,15 +8,33 @@ from app.models import Igreja, Classe, Aluno, Pessoa
 
 
 def list_alunos(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
-    return render_to_response('alunos.html', {'igreja': igreja},
+    igreja = None
+    aluno = None
+    professor = None
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    elif categoria == 2:
+        aluno = Pessoa.objects.get(email=request.session['email']).aluno_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    return render_to_response('alunos.html', {'igreja': igreja,
+                                              'aluno': aluno,
+                                              'professor': professor},
                               context_instance=RequestContext(request))
 
 
 def add_aluno(request):
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    igreja = None
+    professor = None
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
     if request.method == 'GET':
-        return render_to_response('add_aluno.html', {'igreja': igreja},
+        return render_to_response('add_aluno.html', {'igreja': igreja,
+                                                     'professor': professor},
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
         data = request.POST
@@ -34,12 +52,19 @@ def add_aluno(request):
             new_pessoa.save()
             new_aluno = Aluno(pessoa=new_pessoa)
             new_aluno.foto = 'http://lorempixel.com/128/128/'
+            if 'habilitado' in data:
+                new_aluno.habilitado = True
             new_aluno.save()
             classe = Classe.objects.get(id=data['id_classe'])
             classe.alunos.add(new_aluno)
             classe.save()
-            igreja.alunos.add(new_aluno)
-            igreja.save()
+            if categoria == 1:
+                igreja = professor.igreja_set.first()
+                igreja.alunos.add(new_aluno)
+                igreja.save()
+            else:
+                igreja.alunos.add(new_aluno)
+                igreja.save()
             messages.success(request, 'Aluno criado com sucesso.')
             return redirect('/alunos')
         except:
@@ -48,10 +73,17 @@ def add_aluno(request):
 
 
 def edit_aluno(request, id):
+    igreja = None
+    professor = None
     pessoa = Pessoa.objects.get(id=id)
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
     if request.method == 'GET':
         return render_to_response('edit_aluno.html', {'igreja': igreja,
+                                                      'professor': professor,
                                                       'pessoa': pessoa},
                                   context_instance=RequestContext(request))
     elif request.method == 'POST':
@@ -75,12 +107,11 @@ def edit_aluno(request, id):
             pessoa.estado = data['estado']
             pessoa.save()
             aluno_modificado = pessoa.aluno_set.first()
-            classeAtual = aluno_modificado.classe_set.first()
-            classeAtual.alunos.remove(aluno_modificado)
-            classeAtual.save()
-            classeNova = Classe.objects.get(id=data['id_classe'])
-            classeNova.alunos.add(aluno_modificado)
-            classeNova.save()
+            if 'habilitado' in data:
+                aluno_modificado.habilitado = True
+            else:
+                aluno_modificado.habilitado = False
+            aluno_modificado.save()
             messages.success(request, 'Aluno editado com sucesso.')
             return redirect('/alunos')
         except:
@@ -90,21 +121,29 @@ def edit_aluno(request, id):
 
 def view_aluno(request, id):
     pessoa = Pessoa.objects.get(id=id)
-    igreja = Igreja.objects.get(email_responsavel=request.session['email'])
+    igreja = None
+    professor = None
+    pessoa = Pessoa.objects.get(id=id)
+    categoria = int(request.session['categoria'])
+    if categoria == 1:
+        professor = Pessoa.objects.get(email=request.session['email']).professor_set.first()
+    else:
+        igreja = Igreja.objects.get(email_responsavel=request.session['email'])
     try:
-        aulas = pessoa.aluno_set.all()[0].classe_set.all()[0].aulas.all()
+        aulas = pessoa.aluno_set.first().classe_set.first().aulas.all()
         if len(aulas) > 0:
-            presencas = (len(aulas.filter(presentes__id__exact=pessoa.aluno_set.all()[0].id))*100)/len(aulas)
+            presencas = (len(aulas.filter(presentes__id__exact=pessoa.aluno_set.all()[0].id)) * 100) / len(aulas)
         else:
             presencas = 100
         faltas = 100 - presencas
 
         if request.method == 'GET':
             return render_to_response('view_aluno.html', {'igreja': igreja,
+                                                          'professor': professor,
                                                           'pessoa': pessoa,
                                                           'aulas': len(aulas),
                                                           'presencas': presencas,
-                                                          'faltas':faltas},
+                                                          'faltas': faltas},
                                       context_instance=RequestContext(request))
         else:
             messages.error(request, 'Nao foi possivel ver aluno.')

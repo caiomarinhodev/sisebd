@@ -4,9 +4,11 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a class="btn btn-default pull-left print-list" href="/imprimir?q=diarios" target="_blank"><i
-                            class="fa fa-print"></i>
-                        Imprimir</a>
+                    {% if igreja %}
+                        <a class="btn btn-default pull-left print-list" href="/imprimir?q=diarios" target="_blank"><i
+                                class="fa fa-print"></i>
+                            Imprimir</a>
+                    {% endif %}
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -24,29 +26,63 @@
                                         <th>Presentes</th>
                                         <th>Faltosos</th>
                                         <th>Criado em</th>
-                                        <th></th>
+                                        {% if igreja %}
+                                            <th></th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for aula in igreja.aulas.all %}
-                                        <tr>
-                                            <td>{{ aula.id }}</td>
-                                            <td>
-                                                {% for classe in aula.classe_set.all %}
-                                                    {{ classe.nome }}
-                                                {% endfor %}
-                                            </td>
-                                            <td>{{ aula.data|date:"d/m/Y" }}</td>
-                                            <td>{{ aula.presentes.all|length }}</td>
-                                            <td>{{ aula.faltosos.all|length }}</td>
-                                            <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td class="text-center">
-                                                <a href="/view-diario/{{ aula.id }}">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                    {% if igreja %}
+                                        {% for aula in igreja.aulas.all %}
+                                            <tr>
+                                                <td>{{ aula.id }}</td>
+                                                <td>
+                                                    {% for classe in aula.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                                <td>{{ aula.presentes.all|length }}</td>
+                                                <td>{{ aula.faltosos.all|length }}</td>
+                                                <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a href="/view-diario/{{ aula.id }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% elif professor %}
+                                        {% for aula in professor.igreja_set.first.aulas.all %}
+                                            <tr>
+                                                <td>{{ aula.id }}</td>
+                                                <td>
+                                                    {% for classe in aula.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                                <td>{{ aula.presentes.all|length }}</td>
+                                                <td>{{ aula.faltosos.all|length }}</td>
+                                                <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for aula in aluno.igreja_set.first.aulas.all %}
+                                            <tr>
+                                                <td>{{ aula.id }}</td>
+                                                <td>
+                                                    {% for classe in aula.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                                <td>{{ aula.presentes.all|length }}</td>
+                                                <td>{{ aula.faltosos.all|length }}</td>
+                                                <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

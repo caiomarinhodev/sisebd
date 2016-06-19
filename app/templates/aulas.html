@@ -4,27 +4,49 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a class="btn btn-default pull-left print-list" href="/imprimir?q=aulas" target="_blank"><i
-                            class="fa fa-print"></i>
-                        Imprimir</a>
+                    {% if igreja %}
+                        <a class="btn btn-default pull-left print-list" href="/imprimir?q=aulas" target="_blank"><i
+                                class="fa fa-print"></i>
+                            Imprimir</a>
 
-                    <form class="pull-right" method="post" action="/add-aula">{% csrf_token %}
-                        <div class="input-group">
-                            <select id="id_classe" name="id_classe" class="form-control" style="padding-right: 20px;"
-                                    required>
-                                <option value=""></option>
-                                {% for classe in igreja.classes.all %}
-                                    <option value="{{ classe.id }}">{{ classe.nome }}</option>
-                                {% endfor %}
-                            </select>
+                        <form class="pull-right" method="post" action="/add-aula">{% csrf_token %}
+                            <div class="input-group">
+                                <select id="id_classe" name="id_classe" class="form-control"
+                                        style="padding-right: 20px;"
+                                        required>
+                                    <option value=""></option>
+                                    {% for classe in igreja.classes.all %}
+                                        <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                    {% endfor %}
+                                </select>
                             <span class="input-group-btn" style="padding-left: 10px;">
                               <button id="add_aula" type="submit" class="btn btn-primary btn-flat" disabled><i
                                       class="fa fa-plus"></i>
                                   Adicionar Aula
                               </button>
                             </span>
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+                    {% elif professor %}
+                        <form class="pull-right" method="post" action="/add-aula">{% csrf_token %}
+                            <div class="input-group">
+                                <select id="id_classe" name="id_classe" class="form-control"
+                                        style="padding-right: 20px;"
+                                        required>
+                                    <option value=""></option>
+                                    {% for classe in professor.igreja_set.first.classes.all %}
+                                        <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            <span class="input-group-btn" style="padding-left: 10px;">
+                              <button id="add_aula" type="submit" class="btn btn-primary btn-flat" disabled><i
+                                      class="fa fa-plus"></i>
+                                  Adicionar Aula
+                              </button>
+                            </span>
+                            </div>
+                        </form>
+                    {% endif %}
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -40,27 +62,62 @@
                                         <th>Classe</th>
                                         <th>Data</th>
                                         <th>Criado em</th>
-                                        <th></th>
+                                        {% if igreja or professor %}
+                                            <th></th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for aula in igreja.aulas.all %}
-                                        <tr>
-                                            <td><a href="/view-diario/{{ aula.id }}">{{ aula.id }}</a></td>
-                                            <td>
-                                                {% for classe in aula.classe_set.all %}
-                                                    {{ classe.nome }}
-                                                {% endfor %}
-                                            </td>
-                                            <td>{{ aula.data|date:"d/m/Y" }}</td>
-                                            <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td class="text-center">
-                                                <a class="remover" data-link="/remove-aula/{{ aula.id }}">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                    {% if igreja %}
+                                        {% for aula in igreja.aulas.all %}
+                                            <tr>
+                                                <td><a href="/view-diario/{{ aula.id }}">{{ aula.id }}</a></td>
+                                                <td>
+                                                    {% for classe in aula.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                                <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a class="remover" data-link="/remove-aula/{{ aula.id }}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% elif professor %}
+                                        {% for aula in professor.igreja_set.first.aulas.all %}
+                                            <tr>
+                                                <td><a href="/view-diario/{{ aula.id }}">{{ aula.id }}</a></td>
+                                                <td>
+                                                    {% for classe in aula.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                                <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a class="remover" data-link="/remove-aula/{{ aula.id }}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for aula in aluno.igreja_set.first.aulas.all %}
+                                            <tr>
+                                                <td><a href="/view-diario/{{ aula.id }}">{{ aula.id }}</a></td>
+                                                <td>
+                                                    {% for classe in aula.classe_set.all %}
+                                                        {{ classe.nome }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ aula.data|date:"d/m/Y" }}</td>
+                                                <td>{{ aula.created_at|date:"d/m/Y G:i" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

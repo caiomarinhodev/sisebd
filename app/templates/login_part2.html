@@ -44,7 +44,7 @@
                 <form method="post" action="/who">
                     {% csrf_token %}
                     <input type="hidden" name="categoria" value="1">
-                    <button type="submit" class="btn bg-orange btn-block btn-flat btn-lg" disabled>
+                    <button type="submit" class="btn bg-orange btn-block btn-flat btn-lg">
                         <i class="fa fa-graduation-cap"></i> Sou Professor
                     </button>
                 </form>
@@ -53,7 +53,7 @@
                 <form method="post" action="/who">
                     {% csrf_token %}
                     <input type="hidden" name="categoria" value="2">
-                    <button type="submit" class="btn bg-purple btn-block btn-flat btn-lg" disabled>
+                    <button type="submit" class="btn bg-purple btn-block btn-flat btn-lg">
                         <i class="fa fa-user"></i>  Sou Aluno
                     </button>
                 </form>

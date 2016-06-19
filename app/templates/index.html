@@ -21,7 +21,13 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Plano Contratado</span>
-                    <span class="info-box-number">Gratuito</span>
+                    {% if igreja %}
+                        <span class="info-box-number">{{ igreja.plano }}</span>
+                    {% elif professor %}
+                        <span class="info-box-number">{{ professor.igreja_set.first.plano }}</span>
+                    {% else %}
+                        <span class="info-box-number">{{ aluno.igreja_set.first.plano }}</span>
+                    {% endif %}
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -38,7 +44,13 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Igreja</span>
-                    <span class="info-box-number">{{ igreja.nome_igreja }}</span>
+                    {% if igreja %}
+                        <span class="info-box-number">{{ igreja.nome_igreja }}</span>
+                    {% elif professor %}
+                        <span class="info-box-number">{{ professor.igreja_set.first.nome_igreja }}</span>
+                    {% else %}
+                        <span class="info-box-number">{{ aluno.igreja_set.first.nome_igreja }}</span>
+                    {% endif %}
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -51,7 +63,13 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Contato</span>
-                    <span class="info-box-number">{{ igreja.telefone }}</span>
+                    {% if igreja %}
+                        <span class="info-box-number">{{ igreja.telefone }}</span>
+                    {% elif professor %}
+                        <span class="info-box-number">{{ professor.igreja_set.first.telefone }}</span>
+                    {% else %}
+                        <span class="info-box-number">{{ aluno.igreja_set.first.telefone }}</span>
+                    {% endif %}
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -72,9 +90,20 @@
                                     <label for="id_classe">Classe:</label>
                                     <select class="form-control " id="id_classe" name="id_classe" required>
                                         <option value=""></option>
-                                        {% for classe in igreja.classes.all %}
-                                            <option value="{{ classe.id }}">{{ classe.nome }}</option>
-                                        {% endfor %}
+                                        {% if igreja %}
+                                            {% for classe in igreja.classes.all %}
+                                                <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                            {% endfor %}
+                                        {% elif professor %}
+                                            {% for classe in professor.igreja_set.first.classes.all %}
+                                                <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for classe in aluno.igreja_set.first.classes.all %}
+                                                <option value="{{ classe.id }}">{{ classe.nome }}</option>
+                                            {% endfor %}
+                                        {% endif %}
+
                                     </select>
                                 </div>
                             </div>
@@ -138,7 +167,13 @@
 
                             <div class="progress-group">
                                 <span class="progress-text">Alunos</span>
-                                <span class="progress-number"><b>{{ igreja.alunos.all|length }}</b>/400</span>
+                                {% if igreja %}
+                                    <span class="progress-number"><b>{{ igreja.alunos.all|length }}</b>/400</span>
+                                {% elif professor %}
+                                    <span class="progress-number"><b>{{ professor.igreja_set.first.alunos.all|length }}</b>/400</span>
+                                {% else %}
+                                    <span class="progress-number"><b>{{ aluno.igreja_set.first.alunos.all|length }}</b>/400</span>
+                                {% endif %}
 
                                 <div class="progress sm">
                                     <div id="percent_alunos" class="progress-bar progress-bar-aqua"
@@ -186,7 +221,13 @@
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <h5 class="description-header">{{ igreja.departamentos.all|length }}</h5>
+                                {% if igreja %}
+                                    <h5 class="description-header">{{ igreja.departamentos.all|length }}</h5>
+                                {% elif professor %}
+                                    <h5 class="description-header">{{ professor.igreja_set.first.departamentos.all|length }}</h5>
+                                {% else %}
+                                    <h5 class="description-header">{{ aluno.igreja_set.first.departamentos.all|length }}</h5>
+                                {% endif %}
                                 <span class="description-text">DEPARTAMENTOS</span>
                             </div>
                             <!-- /.description-block -->
@@ -194,7 +235,13 @@
                         <!-- /.col -->
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <h5 class="description-header">{{ igreja.professores.all|length }}</h5>
+                                {% if igreja %}
+                                    <h5 class="description-header">{{ igreja.professores.all|length }}</h5>
+                                {% elif professor %}
+                                    <h5 class="description-header">{{ professor.igreja_set.first.professores.all|length }}</h5>
+                                {% else %}
+                                    <h5 class="description-header">{{ aluno.igreja_set.first.professores.all|length }}</h5>
+                                {% endif %}
                                 <span class="description-text">PROFESSORES</span>
                             </div>
                             <!-- /.description-block -->
@@ -202,7 +249,13 @@
                         <!-- /.col -->
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <h5 class="description-header">{{ igreja.classes.all|length }}</h5>
+                                {% if igreja %}
+                                    <h5 class="description-header">{{ igreja.classes.all|length }}</h5>
+                                {% elif professor %}
+                                    <h5 class="description-header">{{ professor.igreja_set.first.classes.all|length }}</h5>
+                                {% else %}
+                                    <h5 class="description-header">{{ aluno.igreja_set.first.classes.all|length }}</h5>
+                                {% endif %}
                                 <span class="description-text">CLASSES</span>
                             </div>
                             <!-- /.description-block -->
@@ -210,7 +263,13 @@
                         <!-- /.col -->
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block">
-                                <h5 class="description-header">{{ igreja.aulas.all|length }}</h5>
+                                {% if igreja %}
+                                    <h5 class="description-header">{{ igreja.aulas.all|length }}</h5>
+                                {% elif professor %}
+                                    <h5 class="description-header">{{ professor.igreja_set.first.aulas.all|length }}</h5>
+                                {% else %}
+                                    <h5 class="description-header">{{ aluno.igreja_set.first.aulas.all|length }}</h5>
+                                {% endif %}
                                 <span class="description-text">AULAS REGISTRADAS</span>
                             </div>
                             <!-- /.description-block -->
@@ -226,8 +285,10 @@
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Relatorio de Faltas</h3>
-            <a class="btn btn-default pull-right print-list" onclick="imprimir_page();"><i class="fa fa-print"></i>
-                Imprimir</a>
+            {% if igreja %}
+                <a class="btn btn-default pull-right print-list" onclick="imprimir_page();"><i class="fa fa-print"></i>
+                    Imprimir</a>
+            {% endif %}
         </div>
         <div class="box-body">
             <div class="row">
@@ -259,19 +320,49 @@
                                 </tr>
                             {% endfor %}
                         {% else %}
-                            {% for aluno in igreja.alunos.all %}
-                                <tr>
-                                    <td>{{ aluno.pessoa.nome }}</td>
-                                    <td>{{ aluno.classe_set.first.nome }}</td>
-                                    {% for aula in aulas %}
-                                        {% if aluno in aula.presentes.all %}
-                                            <td>P</td>
-                                        {% else %}
-                                            <td>F</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
+                            {% if igreja %}
+                                {% for aluno in igreja.alunos.all %}
+                                    <tr>
+                                        <td>{{ aluno.pessoa.nome }}</td>
+                                        <td>{{ aluno.classe_set.first.nome }}</td>
+                                        {% for aula in aulas %}
+                                            {% if aluno in aula.presentes.all %}
+                                                <td>P</td>
+                                            {% else %}
+                                                <td>F</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            {% elif professor %}
+                                {% for aluno in professor.igreja_set.first.alunos.all %}
+                                    <tr>
+                                        <td>{{ aluno.pessoa.nome }}</td>
+                                        <td>{{ aluno.classe_set.first.nome }}</td>
+                                        {% for aula in aulas %}
+                                            {% if aluno in aula.presentes.all %}
+                                                <td>P</td>
+                                            {% else %}
+                                                <td>F</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                {% for aluno in aluno.igreja_set.first.alunos.all %}
+                                    <tr>
+                                        <td>{{ aluno.pessoa.nome }}</td>
+                                        <td>{{ aluno.classe_set.first.nome }}</td>
+                                        {% for aula in aulas %}
+                                            {% if aluno in aula.presentes.all %}
+                                                <td>P</td>
+                                            {% else %}
+                                                <td>F</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
                         {% endif %}
                         </tbody>
                     </table>
@@ -282,61 +373,61 @@
 
 
     <!-- Main row -->
-{#    <div class="row">#}
-{#        <!-- Left col -->#}
-{#        <div class="col-md-8">#}
-{#        </div>#}
-{#        <!-- /.col -->#}
-{##}
-{#        <div class="col-md-4">#}
-{#            <div class="box box-widget widget-user">#}
-{#                <!-- Add the bg color to the header using any of the bg-* classes -->#}
-{#                <div class="widget-user-header bg-aqua-active">#}
-{#                    <h3 class="widget-user-username">{{ igreja.nome_responsavel }}</h3>#}
-{#                    <h5 class="widget-user-desc">Usuario Adm</h5>#}
-{#                </div>#}
-{#                <div class="widget-user-image">#}
-{#                    {% if igreja.foto %}#}
-{#                        <img class="img-circle" src="{{ igreja.foto }}" alt="{{ igreja.nome_responsavel }}">#}
-{#                    {% else %}#}
-{#                        <img class="img-circle" src="http://lorempixel.com/128/128/"#}
-{#                             alt="{{ igreja.nome_responsavel }}">#}
-{#                    {% endif %}#}
-{##}
-{#                </div>#}
-{#                <div class="box-footer">#}
-{#                    <div class="row">#}
-{#                        <div class="col-sm-4 border-right">#}
-{#                            <div class="description-block">#}
-{#                                <h5 class="description-header">{{ igreja.id }}</h5>#}
-{#                                <span class="description-text">ID</span>#}
-{#                            </div>#}
-{#                            <!-- /.description-block -->#}
-{#                        </div>#}
-{#                        <!-- /.col -->#}
-{#                        <div class="col-sm-4 border-right">#}
-{#                            <div class="description-block">#}
-{#                                <h5 class="description-header">{{ igreja.qtd_membros }}</h5>#}
-{#                                <span class="description-text">MEMBROS</span>#}
-{#                            </div>#}
-{#                            <!-- /.description-block -->#}
-{#                        </div>#}
-{#                        <!-- /.col -->#}
-{#                        <div class="col-sm-4">#}
-{#                            <div class="description-block">#}
-{#                                <h5 class="description-header">{{ igreja.updated_at|date:"d/m/Y H:m" }}</h5>#}
-{#                            </div>#}
-{#                            <!-- /.description-block -->#}
-{#                        </div>#}
-{#                        <!-- /.col -->#}
-{#                    </div>#}
-{#                    <!-- /.row -->#}
-{#                </div>#}
-{#            </div>#}
-{#            <!-- Info Boxes Style 2 -->#}
-{#        </div>#}
-{#        <!-- /.col -->#}
-{#    </div>#}
+    {#    <div class="row">#}
+    {#        <!-- Left col -->#}
+    {#        <div class="col-md-8">#}
+    {#        </div>#}
+    {#        <!-- /.col -->#}
+    {##}
+    {#        <div class="col-md-4">#}
+    {#            <div class="box box-widget widget-user">#}
+    {#                <!-- Add the bg color to the header using any of the bg-* classes -->#}
+    {#                <div class="widget-user-header bg-aqua-active">#}
+    {#                    <h3 class="widget-user-username">{{ igreja.nome_responsavel }}</h3>#}
+    {#                    <h5 class="widget-user-desc">Usuario Adm</h5>#}
+    {#                </div>#}
+    {#                <div class="widget-user-image">#}
+    {#                    {% if igreja.foto %}#}
+    {#                        <img class="img-circle" src="{{ igreja.foto }}" alt="{{ igreja.nome_responsavel }}">#}
+    {#                    {% else %}#}
+    {#                        <img class="img-circle" src="http://lorempixel.com/128/128/"#}
+    {#                             alt="{{ igreja.nome_responsavel }}">#}
+    {#                    {% endif %}#}
+    {##}
+    {#                </div>#}
+    {#                <div class="box-footer">#}
+    {#                    <div class="row">#}
+    {#                        <div class="col-sm-4 border-right">#}
+    {#                            <div class="description-block">#}
+    {#                                <h5 class="description-header">{{ igreja.id }}</h5>#}
+    {#                                <span class="description-text">ID</span>#}
+    {#                            </div>#}
+    {#                            <!-- /.description-block -->#}
+    {#                        </div>#}
+    {#                        <!-- /.col -->#}
+    {#                        <div class="col-sm-4 border-right">#}
+    {#                            <div class="description-block">#}
+    {#                                <h5 class="description-header">{{ igreja.qtd_membros }}</h5>#}
+    {#                                <span class="description-text">MEMBROS</span>#}
+    {#                            </div>#}
+    {#                            <!-- /.description-block -->#}
+    {#                        </div>#}
+    {#                        <!-- /.col -->#}
+    {#                        <div class="col-sm-4">#}
+    {#                            <div class="description-block">#}
+    {#                                <h5 class="description-header">{{ igreja.updated_at|date:"d/m/Y H:m" }}</h5>#}
+    {#                            </div>#}
+    {#                            <!-- /.description-block -->#}
+    {#                        </div>#}
+    {#                        <!-- /.col -->#}
+    {#                    </div>#}
+    {#                    <!-- /.row -->#}
+    {#                </div>#}
+    {#            </div>#}
+    {#            <!-- Info Boxes Style 2 -->#}
+    {#        </div>#}
+    {#        <!-- /.col -->#}
+    {#    </div>#}
     <script type="text/javascript">
         function imprimir_page() {
             $('.sidebar-toggle').trigger('click');

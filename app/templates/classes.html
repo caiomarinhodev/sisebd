@@ -4,10 +4,13 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a class="btn btn-default pull-left print-list" href="/imprimir?q=classes" target="_blank"><i
-                            class="fa fa-print"></i>
-                        Imprimir</a>
-                    <a href="/add-classe" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Adicionar Classe</a>
+                    {% if igreja %}
+                        <a class="btn btn-default pull-left print-list" href="/imprimir?q=classes" target="_blank"><i
+                                class="fa fa-print"></i>
+                            Imprimir</a>
+                        <a href="/add-classe" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Adicionar
+                            Classe</a>
+                    {% endif %}
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -25,37 +28,63 @@
                                         <th>Alunos</th>
                                         <th>Criado em</th>
                                         <td>Alterado em</td>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        {% if igreja %}
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for classe in igreja.classes.all %}
-                                        <tr>
-                                            <td>{{ classe.id }}</td>
-                                            <td>{{ classe.nome }}</td>
-                                            <td>{{ classe.professor.pessoa.nome }}</td>
-                                            <td>{{ classe.alunos.all|length }}</td>
-                                            <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
-                                            <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
-                                            <td class="text-center">
-                                                <a href="/edit-classe/{{ classe.id }}">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="/view-classe/{{ classe.id }}">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a class="remover" data-link="/remove-classe/{{ classe.id }}">
-                                                    <i class="lixo fa fa-trash-o"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                    {% if igreja %}
+                                        {% for classe in igreja.classes.all %}
+                                            <tr>
+                                                <td>{{ classe.id }}</td>
+                                                <td>{{ classe.nome }}</td>
+                                                <td>{{ classe.professor.pessoa.nome }}</td>
+                                                <td>{{ classe.alunos.all|length }}</td>
+                                                <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
+                                                <td class="text-center">
+                                                    <a href="/edit-classe/{{ classe.id }}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="/view-classe/{{ classe.id }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="remover" data-link="/remove-classe/{{ classe.id }}">
+                                                        <i class="lixo fa fa-trash-o"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% elif professor %}
+                                        {% for classe in professor.igreja_set.first.classes.all %}
+                                            <tr>
+                                                <td>{{ classe.id }}</td>
+                                                <td>{{ classe.nome }}</td>
+                                                <td>{{ classe.professor.pessoa.nome }}</td>
+                                                <td>{{ classe.alunos.all|length }}</td>
+                                                <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for classe in aluno.igreja_set.first.classes.all %}
+                                            <tr>
+                                                <td>{{ classe.id }}</td>
+                                                <td>{{ classe.nome }}</td>
+                                                <td>{{ classe.professor.pessoa.nome }}</td>
+                                                <td>{{ classe.alunos.all|length }}</td>
+                                                <td>{{ classe.created_at|date:"d/m/Y G:i" }}</td>
+                                                <td>{{ classe.updated_at|date:"d/m/Y G:i" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

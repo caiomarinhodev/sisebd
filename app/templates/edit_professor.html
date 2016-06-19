@@ -59,17 +59,29 @@
                                     <input class="form-control " id="email"
                                            type="email" name="email" value="{{ pessoa.email }}">
                                 </div>
+                                <div class="form-group">
+                                    <label for="habilitado">Habilitado:</label>
+                                    {% if pessoa.professor_set.first.habilitado %}
+                                        <input id="habilitado"
+                                               type="checkbox" name="habilitado" checked>
+                                    {% else %}
+                                        <input id="habilitado"
+                                               type="checkbox" name="habilitado">
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nome">Telefone residencial:</label>
                                     <input class="form-control telefone" id="telefone_residencial"
-                                           type="text" name="telefone_residencial" value="{{ pessoa.telefone_residencial }}">
+                                           type="text" name="telefone_residencial"
+                                           value="{{ pessoa.telefone_residencial }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Telefone comercial:</label>
                                     <input class="form-control telefone" id="telefone_comercial"
-                                           type="text" name="telefone_comercial" value="{{ pessoa.telefone_comercial }}">
+                                           type="text" name="telefone_comercial"
+                                           value="{{ pessoa.telefone_comercial }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">Telefone celular:</label>
@@ -78,11 +90,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nome">CEP:</label>
+
                                     <div class="input-group">
                                         <input class="form-control cep" id="cep"
                                                type="text" name="cep" value="{{ pessoa.cep }}">
                                         <span class="input-group-btn">
-                                            <button id="busca_cep" class="btn btn-default" type="button">Buscar  <i
+                                            <button id="busca_cep" class="btn btn-default" type="button">Buscar <i
                                                     class="fa fa-angle-right"></i></button>
                                         </span>
                                     </div>

@@ -81,24 +81,50 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ igreja.foto }}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">{{ igreja.nome_responsavel }}</span>
+                            {% if igreja %}
+                                <img src="{{ igreja.foto }}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ igreja.nome_responsavel }}</span>
+                            {% elif professor %}
+                                <img src="{{ professor.foto }}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ professor.pessoa.nome }}</span>
+                            {% else %}
+                                <img src="{{ aluno.foto }}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ aluno.pessoa.nome }}</span>
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{ igreja.foto }}" class="img-circle" alt="User Image">
+                                {% if igreja %}
+                                    <img src="{{ igreja.foto }}" class="img-circle" alt="User Image">
+                                {% elif professor %}
+                                    <img src="{{ professor.foto }}" class="img-circle" alt="User Image">
+                                {% else %}
+                                    <img src="{{ aluno.foto }}" class="img-circle" alt="User Image">
+                                {% endif %}
 
                                 <p>
-                                    {{ igreja.nome_responsavel }}
-                                    <small>Membro desde {{ igreja.created_at|date:"d/m/Y" }}</small>
+                                    {% if igreja %}
+                                        {{ igreja.nome_responsavel }}
+                                        <small>Membro desde {{ igreja.created_at|date:"d/m/Y" }}</small>
+                                    {% elif professor %}
+                                        {{ professor.pessoa.nome }}
+                                        <small>Membro desde {{ professor.created_at|date:"d/m/Y" }}</small>
+                                    {% else %}
+                                        {{ aluno.pessoa.nome }}
+                                        <small>Membro desde {{ aluno.created_at|date:"d/m/Y" }}</small>
+                                    {% endif %}
                                 </p>
                             </li>
                             <!-- Menu Body -->
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                    {% if igreja %}
+                                        <a href="/config" class="btn btn-default btn-flat">Perfil</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                    {% endif %}
                                 </div>
                                 <div class="pull-right">
                                     <a href="/logout" class="btn btn-default btn-flat">Sair</a>
@@ -118,10 +144,23 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ igreja.foto }}" class="img-circle" alt="User Image">
+                    {% if igreja %}
+                        <img src="{{ igreja.foto }}" class="img-circle" alt="User Image">
+                    {% elif professor %}
+                        <img src="{{ professor.foto }}" class="img-circle" alt="User Image">
+                    {% else %}
+                        <img src="{{ aluno.foto }}" class="img-circle" alt="User Image">
+                    {% endif %}
+
                 </div>
                 <div class="pull-left info">
-                    <p>{{ igreja.nome_responsavel }}</p>
+                    {% if igreja %}
+                        <p>{{ igreja.nome_responsavel }}</p>
+                    {% elif professor %}
+                        <p>{{ professor.pessoa.nome }}</p>
+                    {% else %}
+                        <p>{{ aluno.pessoa.nome }}</p>
+                    {% endif %}
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -161,6 +200,11 @@
                 <li id="diarios">
                     <a href="/diarios">
                         <i class="fa fa-list-alt"></i> <span>Diarios</span>
+                    </a>
+                </li>
+                <li id="materiais">
+                    <a href="/materiais">
+                        <i class="fa fa-list-alt"></i> <span>Materiais</span>
                     </a>
                 </li>
                 {#                <li id="relatorios">#}

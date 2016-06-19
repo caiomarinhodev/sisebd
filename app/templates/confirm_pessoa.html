@@ -30,7 +30,7 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <form method="post" action="">
+        <form method="post" action="/confirma-pessoa">{% csrf_token %}
             <div class="row text-center">
                 <h3>Escolha a sua igreja cadastrada:</h3>
             </div>
@@ -44,6 +44,8 @@
                     </select>
                 </div>
             </div>
+            <br/>
+
             <div class="row">
                 <div class="col-md-12">
                     <button type="submit" class="btn bg-blue btn-block btn-flat">Entrar</button>

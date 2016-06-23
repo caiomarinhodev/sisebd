@@ -1,6 +1,7 @@
 from base64 import b64encode
 import datetime
 import json
+import uuid
 
 from django.contrib import messages
 from django.shortcuts import redirect, render_to_response
@@ -63,7 +64,7 @@ def add_material(request):
             }
             data = b64encode(request.FILES['file'].read())
             r = requests.post(url, headers=headers, data=data)
-            # print r.json()
+            print r.json()
             if r.status_code == 200 or r.status_code == 201:
                 url = "https://api.dropboxapi.com/2/sharing/create_shared_link"
                 headers = {
@@ -74,12 +75,49 @@ def add_material(request):
                     "path": "/Apps/pagseguroarquivos" + name,
                     "short_url": False
                 }
-                # print json.dumps(data)
+                print json.dumps(data)
                 r = requests.post(url, headers=headers, data=json.dumps(data))
                 file = r.json()['url']
+            else:
+                url = "https://content.dropboxapi.com/2/files/upload"
+                name = "/" + str(uuid.uuid4()) + str(request.FILES['file'].name)
+                headers = {
+                    "Authorization": "Bearer M6iN1nYzh_YAAAAAAACHm34PsRKmgPWvVI6uSALYMTqZxGUcopC4pr7K7OkfFfaZ",
+                    "Content-Type": "application/octet-stream",
+                    "Dropbox-API-Arg": "{\"path\":\"" + name + "\"}"
+                }
+                data = b64encode(request.FILES['file'].read())
+                r = requests.post(url, headers=headers, data=data)
+                print r.json()
+                if r.status_code == 200 or r.status_code == 201:
+                    url = "https://api.dropboxapi.com/2/sharing/create_shared_link"
+                    headers = {
+                        "Authorization": "Bearer M6iN1nYzh_YAAAAAAACHmqe-TsJhb-Dur_EB09HNKaguknUwnq2a_PprLOwiSS3W",
+                        "Content-Type": "application/json"
+                    }
+                    data = {
+                        "path": "/Apps/pagseguroarquivos" + name,
+                        "short_url": False
+                    }
+                    print json.dumps(data)
+                    r = requests.post(url, headers=headers, data=json.dumps(data))
+                    file = r.json()['url']
         try:
             if categoria == 0:
-                autor = None
+                try:
+                    autor = Pessoa.objects.get(email=request.session['email'])
+                except:
+                    autor = Pessoa(nome=igreja.nome_igreja, sexo='', nome_pai='',
+                                   nome_mae='',
+                                   data_nascimento=datetime.datetime.now(),
+                                   estado_civil='',
+                                   idade=0, email=request.session['email'],
+                                   telefone_residencial=igreja.telefone,
+                                   telefone_comercial=igreja.telefone,
+                                   telefone_celular=igreja.telefone,
+                                   endereco='', numero='',
+                                   bairro='', cidade='', cep='', estado='')
+                    autor.save()
             else:
                 autor = Pessoa.objects.get(email=request.session['email'])
 

@@ -408,7 +408,21 @@
         return false;
     }
     $(document).ready(function () {
-        $('#table').DataTable({});
+        var indice_sorting = 0;
+        for (var i = 0; i < $('thead>tr>th').length; i++) {
+            name = $('thead>tr>th:eq(' + i + ')').html();
+            console.log(name);
+            if (name == "Criado em") {
+                indice_sorting = i;
+            }
+            if (name == "Alterado em") {
+                indice_sorting = i;
+            }
+        }
+        $('#table').DataTable({
+            responsive: true,
+            "order": [[indice_sorting, "desc"]]
+        });
         $('.datepicker').datepicker({
             clearBtn: true,
             format: 'dd/mm/yyyy',

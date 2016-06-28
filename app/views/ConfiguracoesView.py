@@ -24,11 +24,20 @@ def edit_configuracoes(request):
         igreja.qtd_membros = data['qtd_membros']
         igreja.plano = data['plano']
         igreja.telefone = data['telefone']
-        CLIENT_ID = "cdadf801dc167ab"
-        data = b64encode(request.FILES['imagem'].read())
-        client = pyimgur.Imgur(CLIENT_ID)
-        r = client._send_request('https://api.imgur.com/3/image', method='POST', params={'image': data})
-        igreja.foto = r['link']
+        if request.FILES:
+            # mudar o client id para cada cliente.
+            try:
+                CLIENT_ID = "cdadf801dc167ab"
+                data = b64encode(request.FILES['imagem'].read())
+                client = pyimgur.Imgur(CLIENT_ID)
+                r = client._send_request('https://api.imgur.com/3/image', method='POST', params={'image': data})
+                igreja.foto = r['link']
+            except:
+                if igreja.foto:
+                    if 'imgur' not in igreja.foto:
+                        igreja.foto = 'http://placehold.it/1024x800'
+                else:
+                    igreja.foto = 'http://placehold.it/1024x800'
         igreja.save()
         messages.success(request, 'Alteracoes realizadas com sucesso.')
         return redirect('/config')

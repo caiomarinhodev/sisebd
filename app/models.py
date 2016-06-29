@@ -32,6 +32,9 @@ class Pessoa(models.Model):
     def __str__(self):
         return str(self.nome).upper() + " - " + str(self.email)
 
+    def __unicode__(self):
+        return u'%s' % (self.nome)
+
 
 class Aluno(models.Model):
     """
@@ -47,6 +50,9 @@ class Aluno(models.Model):
     def __str__(self):
         return str(self.pessoa.nome).upper()
 
+    def __unicode__(self):
+        return u'%s' % (self.pessoa.nome)
+
 
 class Professor(models.Model):
     """
@@ -61,6 +67,9 @@ class Professor(models.Model):
 
     def __str__(self):
         return str(self.pessoa.nome).upper()
+
+    def __unicode__(self):
+        return u'%s' % (self.pessoa.nome)
 
 
 class Aula(models.Model):
@@ -79,6 +88,9 @@ class Aula(models.Model):
     def __str__(self):
         return str(self.data).upper()
 
+    def __unicode__(self):
+        return u'%s' % (self.data)
+
 
 # Create your models here.
 
@@ -90,6 +102,9 @@ class Material(models.Model):
     autor = models.ForeignKey(Pessoa, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return u'%s' % (self.file)
 
 
 class Classe(models.Model):
@@ -109,6 +124,9 @@ class Classe(models.Model):
     def __str__(self):
         return str(self.nome).upper()
 
+    def __unicode__(self):
+        return u'%s' % (self.nome)
+
 
 class Departamento(models.Model):
     """
@@ -123,6 +141,9 @@ class Departamento(models.Model):
     def __str__(self):
         return str(self.descricao).upper()
 
+    def __unicode__(self):
+        return u'%s' % (self.descricao)
+
 
 class Igreja(models.Model):
     """
@@ -131,7 +152,7 @@ class Igreja(models.Model):
     nome_responsavel = models.CharField(max_length=100)
     email_responsavel = models.EmailField()
     telefone = models.CharField(max_length=50, blank=True, null=True)
-    nome_igreja = models.CharField(max_length=100)
+    nome_igreja = models.CharField(max_length=100, unique=True)
     qtd_membros = models.CharField(max_length=10, blank=True, null=True)
     foto = models.CharField(max_length=300, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -147,3 +168,6 @@ class Igreja(models.Model):
 
     def __str__(self):
         return str(self.nome_igreja).upper()
+
+    def __unicode__(self):
+        return u'%s' % (self.nome_igreja)

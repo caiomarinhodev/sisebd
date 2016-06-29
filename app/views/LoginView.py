@@ -39,11 +39,15 @@ def get_register(request):
         nome_igreja = data['nome_igreja']
         telefone = data['telefone']
         qtd_membros = data['qtd_membros']
-        nova_igreja = Igreja(nome_responsavel=request.session['nome'], email_responsavel=request.session['email'],
-                             telefone=telefone, nome_igreja=nome_igreja, qtd_membros=qtd_membros,
-                             foto=request.session['foto'])
-        nova_igreja.save()
-        return redirect('/')
+        try:
+            nova_igreja = Igreja(nome_responsavel=request.session['nome'], email_responsavel=request.session['email'],
+                                 telefone=telefone, nome_igreja=nome_igreja, qtd_membros=qtd_membros,
+                                 foto=request.session['foto'])
+            nova_igreja.save()
+            return redirect('/')
+        except:
+            messages.error(request, "Nome de Igreja ja existente!")
+            return redirect('/register')
 
 
 # Gerencia quem esta logando para onde vai!
@@ -100,7 +104,7 @@ def callback_handling(request):
     token_payload = {
         'client_id': 'mArhMhxXWjMaqVaDLrfbCgP2VmiDlt24',
         'client_secret': '3gBmAUpjQZGM8PRzGSJcYJt_ylY3eE_39EK10JaV5IqQPp-EIdWR6qLTqGkaakEe',
-        'redirect_uri': 'http://sisebd.herokuapp.com/callback',
+        'redirect_uri': 'http://localhost:8000/callback',
         'code': code,
         'grant_type': 'authorization_code'
     }

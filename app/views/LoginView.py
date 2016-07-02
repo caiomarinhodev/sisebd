@@ -104,7 +104,7 @@ def callback_handling(request):
     token_payload = {
         'client_id': 'mArhMhxXWjMaqVaDLrfbCgP2VmiDlt24',
         'client_secret': '3gBmAUpjQZGM8PRzGSJcYJt_ylY3eE_39EK10JaV5IqQPp-EIdWR6qLTqGkaakEe',
-        'redirect_uri': 'http://sisebd.herokuapp.com/callback',
+        'redirect_uri': 'http://sisebd.auxilioaomestre.com/callback',
         'code': code,
         'grant_type': 'authorization_code'
     }

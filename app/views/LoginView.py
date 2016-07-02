@@ -180,3 +180,7 @@ def confirma_pessoa(request):
 def logout(request):
     request.session.clear()
     return redirect('/login')
+
+
+def presentation(request):
+    return render_to_response('presentation.html', context_instance=RequestContext(request))

@@ -72,5 +72,6 @@ urlpatterns = [
     url(r'^remove-material/(?P<id>\d+)', views.MaterialView.remove_material, name='remove-material'),
     url(r'^config', views.ConfiguracoesView.get_configuracoes, name='config'),
     url(r'^edit-config', views.ConfiguracoesView.edit_configuracoes, name='edit-config'),
+    url(r'^app', views.LoginView.presentation, name='presentation'),
 
 ]

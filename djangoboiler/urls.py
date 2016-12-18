@@ -32,12 +32,7 @@ import app.views.ConfiguracoesView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^admin/login/$', auth_views.login),
-    url(r'^$', views.LoginView.verifica_sessao, name='index'),
-    url(r'^login', views.LoginView.get_login, name='login'),
-    url(r'^callback', views.LoginView.callback_handling, name='callback'),
-    url(r'^who', views.LoginView.get_who, name='who'),
-    url(r'^confirma-pessoa', views.LoginView.confirma_pessoa, name='confirma-pessoa'),
-    url(r'^register', views.LoginView.get_register, name='register'),
+    url(r'^$', views.LoginView.home, name='index'),
     url(r'^logout', views.LoginView.logout, name='logout'),
     url(r'^add-depto', views.DepartamentoView.add_departamento, name='add-depto'),
     url(r'^departamentos/', views.DepartamentoView.list_departamentos, name='departamentos'),

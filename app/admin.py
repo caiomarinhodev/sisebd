@@ -3,11 +3,37 @@ from django.contrib import admin
 from app.models import *
 
 
+class DeptoInline(admin.TabularInline):
+    model = Igreja.departamentos.through
+
+
+class ProfessorInline(admin.TabularInline):
+    model = Igreja.professores.through
+
+
+class AulaInline(admin.TabularInline):
+    model = Igreja.aulas.through
+
+
+class MaterialInline(admin.TabularInline):
+    model = Igreja.materiais.through
+
+
+class ClasseInline(admin.TabularInline):
+    model = Igreja.classes.through
+
+
+class AlunoInline(admin.TabularInline):
+    model = Igreja.alunos.through
+
+
 class IgrejaAdmin(admin.ModelAdmin):
     """
         Modelo Igreja Admin
     """
+    exclude = ('classes', 'departamentos', 'professores', 'alunos', 'aulas', 'materiais')
     list_display = ('nome_igreja', 'nome_responsavel', 'email_responsavel', 'created_at', 'updated_at',)
+    inlines = [DeptoInline, ClasseInline, ProfessorInline, AlunoInline, AulaInline, MaterialInline, ]
     list_filter = ('nome_igreja', 'email_responsavel',)
 
 

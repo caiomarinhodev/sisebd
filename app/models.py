@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Pessoa(models.Model):
@@ -33,7 +32,7 @@ class Pessoa(models.Model):
         return str(self.nome).upper() + " - " + str(self.email)
 
     def __unicode__(self):
-        return u'%s' % (self.nome)
+        return u'%s - %s' % (self.id, self.nome)
 
 
 class Aluno(models.Model):
@@ -51,7 +50,7 @@ class Aluno(models.Model):
         return str(self.pessoa.nome).upper()
 
     def __unicode__(self):
-        return u'%s' % (self.pessoa.nome)
+        return u'%s - %s' % (self.id, self.pessoa.nome)
 
 
 class Professor(models.Model):
@@ -69,7 +68,7 @@ class Professor(models.Model):
         return str(self.pessoa.nome).upper()
 
     def __unicode__(self):
-        return u'%s' % (self.pessoa.nome)
+        return u'%s - %s' % (self.id, self.pessoa.nome)
 
 
 class Aula(models.Model):
@@ -89,7 +88,7 @@ class Aula(models.Model):
         return str(self.data).upper()
 
     def __unicode__(self):
-        return u'%s' % (self.data)
+        return u'%s - %s' % (self.id - self.data)
 
 
 # Create your models here.
@@ -99,7 +98,7 @@ class Material(models.Model):
     titulo = models.CharField(max_length=100, blank=True, null=True)
     categoria = models.CharField(max_length=100, blank=True, null=True)
     descricao = models.TextField(blank=True, null=True)
-    autor = models.ForeignKey(Pessoa, blank=True)
+    autor = models.ForeignKey(Pessoa, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -5,3 +5,5 @@ staticfiles
 .env
 .idea/
 .sqlite3
+env
+env/
